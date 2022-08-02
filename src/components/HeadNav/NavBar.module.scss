@@ -1,0 +1,23 @@
+@import '../../variables';
+
+.nav {
+  display: flex;
+  padding: 0 1.5em 0 1.5em;
+  align-items: baseline;
+  background: white;
+  & .nav-sign {
+    margin-left: auto;
+  }
+  & .sign_up {
+    background-color: white;
+    padding: 0.5em 1em;
+    margin-left: 2em;
+    color: $sign_up;
+    border: 1px solid $sign_up;
+    border-radius: 5px;
+  }
+  & .sign_in {
+    background-color: white;
+    border: none;
+  }
+}
