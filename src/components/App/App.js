@@ -2,6 +2,7 @@ import NavBar from '../HeadNav/NavBar';
 import PostList from '../PostList/PostList';
 
 import app from './App.module.scss';
+import 'antd/dist/antd.min.css';
 
 const App = () => {
   return (

@@ -1,20 +1,18 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
 const URL = 'https://blog.kata.academy/api/';
 
-export const getApi = async (url) => {
-  const res = await fetch(URL + url);
-  if (!res.ok) {
-    throw new Error('Не найден API' + `${res.status}`);
+export const getArticle = createAsyncThunk('blog/getArticle', async ({ offset }) => {
+  try {
+    const res = await fetch(URL + `articles?limit=5&offset=${offset}`);
+    console.log(res);
+    if (!res.ok) {
+      throw new Error('Не найден API' + `${res.status}`);
+    }
+    const json = await res.json();
+    console.log(json);
+    return json;
+  } catch (err) {
+    throw new Error(err.message);
   }
-  const arr = await res.json();
-  console.log(arr);
-  return arr;
-};
-
-// export const getArticle = async () => {
-//   const res = await fetch(getApi('article'));
-//   if (!res.ok) {
-//     throw new Error('Не найден API' + `${res.status}`);
-//   }
-//   console.log(res);
-//   return await res.json();
-// };
+});

@@ -1,30 +1,31 @@
-import { useSelector } from 'react-redux';
-
-import { getApi } from '../BlogApi/BlogApi';
+import moment from 'moment';
 
 import list from './PostItem.module.scss';
 
-const PostItem = () => {
-  const { posts } = useSelector((state) => state.blogSlice);
-  console.log(posts);
-  getApi('articles');
+// const validateArrayChar = (array, validator) => {
+//   return array.every((element) => validator.test(element));
+// };
+//   const arrayChar = new RegExp(/^[a-z0-9,'"\s]+$/i);
+
+const PostItem = ({ title, description, createdAt, tagList, author }) => {
+  const convertCreatedDate = moment(createdAt).format('DD MMM, YYYY');
+  const titleNull = !title.trim().length ? 'Заголовок отсутствует' : title;
+  const tags = tagList.length === 0 ? 'Теги отсутствуют' : tagList.map((tag) => tag);
   return (
-    <section className={list['post']}>
+    <li className={list['post']}>
       <div>
-        <h2 className={list['title']}>Title</h2>
-        <span className={list['tag']}>Tag1</span>
-        <p className={list['description']}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
-        </p>
+        <h2 className={list['title']}>{titleNull}</h2>
+        <span className={list['tag']}>{tags}</span>
+        <p className={list['description']}>{description}</p>
       </div>
-      <div>
-        <span>Name</span>
-        <span>Date</span>
-        <span>logo</span>
+      <div className={list['user']}>
+        <div className={list['user-name']}>
+          <span>{author.username}</span>
+          <span className={list['created-date']}>{convertCreatedDate}</span>
+        </div>
+        <img className={list['image']} src={author.image} />
       </div>
-    </section>
+    </li>
   );
 };
 
