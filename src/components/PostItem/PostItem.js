@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Avatar } from '@mui/material';
+import { Avatar, Checkbox } from '@mui/material';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 
 import { convertCreatedDate, mapTags, titleNull } from '../utilites/utilites';
 
@@ -17,7 +18,7 @@ const PostItem = ({ slug, title, description, createdAt, tagList, author, favori
           <Link to={`${slug}`}>
             <h2 className={list['title']}>{megaTitle}</h2>
           </Link>
-          <FavoriteBorderIcon fontSize="small" />
+          <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
           <span>{favoritesCount}</span>
         </div>
         <span className={list['tag']}>{megaTags}</span>

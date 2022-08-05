@@ -10,12 +10,16 @@ const NavBar = () => {
         <h3>Realworld Blog</h3>
       </Link>
       <div className={nav['nav-sign']}>
-        <Button variant="outlined" className={nav['sign_in']}>
-          Sign In
-        </Button>
-        <Button variant="text" className={nav['sign_up']}>
-          Sign Up
-        </Button>
+        <Link to={'sign-in'}>
+          <Button variant="outlined" className={nav['sign_in']}>
+            Sign In
+          </Button>
+        </Link>
+        <Link to={'sign-up'}>
+          <Button variant="text" className={nav['sign_up']}>
+            Sign Up
+          </Button>
+        </Link>
       </div>
     </nav>
   );
