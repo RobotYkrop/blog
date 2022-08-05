@@ -11,6 +11,11 @@
     display: flex;
     gap: 8em;
     justify-content: space-between;
+    & .post-header {
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+    }
   }
   & .user {
     display: grid;

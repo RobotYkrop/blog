@@ -2,7 +2,7 @@
 
 .nav {
   display: flex;
-  padding: 1em 1.5em 0 1.5em;
+  padding: 1.5em;
   align-items: baseline;
   background: white;
   & .nav-sign {
@@ -15,9 +15,14 @@
     color: $sign_up;
     border: 1px solid $sign_up;
     border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      border: 1px dashed rgb(25, 255, 45);
+    }
   }
   & .sign_in {
     background-color: white;
     border: none;
+    cursor: pointer;
   }
 }

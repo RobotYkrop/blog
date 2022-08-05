@@ -2,8 +2,9 @@ import { uniqueId } from 'lodash';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderIcon from 'react-loader-icon';
-import { Alert, AlertTitle } from '@mui/material';
+import { Alert, AlertTitle, Avatar } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import list from '../Article/Article.module.scss';
 import { getOneArticle } from '../BlogApi/BlogApi';
@@ -32,7 +33,12 @@ const Article = () => {
         <section className={list['expanded-post']}>
           <div key={uniqueId()} className={list['post']}>
             <div>
-              <h2 className={list['title']}>{title}</h2>
+              <div className={list['post-header']}>
+                <h2 className={list['title']}>{title}</h2>
+                <span>
+                  <FavoriteBorderIcon fontSize="small" />
+                </span>
+              </div>
               <span className={list['tag']}>{tagList}</span>
               <p className={list['description']}>{description}</p>
             </div>
@@ -41,7 +47,7 @@ const Article = () => {
                 <span>{username}</span>
                 <span className={list['created-date']}>{megaDate}</span>
               </div>
-              <img className={list['image']} src={image} />
+              <Avatar className={list['image']} src={image} alt={username} />
             </div>
           </div>
           <p>{body}</p>

@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import nav from './NavBar.module.scss';
@@ -9,8 +10,12 @@ const NavBar = () => {
         <h3>Realworld Blog</h3>
       </Link>
       <div className={nav['nav-sign']}>
-        <button className={nav['sign_in']}>Sign In</button>
-        <button className={nav['sign_up']}>Sign Up</button>
+        <Button variant="outlined" className={nav['sign_in']}>
+          Sign In
+        </Button>
+        <Button variant="text" className={nav['sign_up']}>
+          Sign Up
+        </Button>
       </div>
     </nav>
   );
