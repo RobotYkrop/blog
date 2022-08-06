@@ -27,17 +27,45 @@ const blogSlice = createSlice({
     },
   },
   extraReducers: {
+    // Изменение информации о пользователе в профиле
+    [putUpdateUser.pending]: (state) => {
+      state.isError = false;
+      state.isLoading = true;
+    },
     [putUpdateUser.fulfilled]: (state, action) => {
       state.userInfo = action.payload.user;
+    },
+    [putUpdateUser.rejected]: (state) => {
+      state.isError = true;
+      state.isLoading = false;
+    },
+    // Отправка запроса на регистрацию пользователя
+    [postRegisterUser.pending]: (state) => {
+      state.isError = false;
+      state.isLoading = true;
     },
     [postRegisterUser.fulfilled]: (state, action) => {
       state.token = action.payload.user.token;
       state.userInfo = action.payload.user;
     },
+    [postRegisterUser.rejected]: (state) => {
+      state.isError = true;
+      state.isLoading = false;
+    },
+    // Отправка запроса на вход в систему
+    [postUserLogin.pending]: (state) => {
+      state.isError = false;
+      state.isLoading = true;
+    },
     [postUserLogin.fulfilled]: (state, action) => {
       state.token = action.payload.user.token;
       state.userInfo = action.payload.user;
     },
+    [postUserLogin.rejected]: (state) => {
+      state.isError = true;
+      state.isLoading = false;
+    },
+    // Получение одного поста
     [getOneArticle.pending]: (state) => {
       state.isError = false;
       state.isLoading = true;
@@ -52,6 +80,7 @@ const blogSlice = createSlice({
       state.isError = false;
       state.isLoading = false;
     },
+    // Получение списка постов
     [getArticle.pending]: (state) => {
       state.isError = false;
       state.isLoading = true;

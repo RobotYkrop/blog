@@ -1,7 +1,8 @@
-import { Button, Checkbox } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import LoaderIcon from 'react-loader-icon';
+import { Alert, AlertTitle, Button, Checkbox } from '@mui/material';
 
 import input from '../../App/App.module.scss';
 import { postRegisterUser } from '../../BlogApi/BlogApi';
@@ -9,6 +10,7 @@ import { postRegisterUser } from '../../BlogApi/BlogApi';
 import reg from './Registration.module.scss';
 
 const Registration = () => {
+  const { isError, isLoading } = useSelector((state) => state.blogSlice);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -32,6 +34,13 @@ const Registration = () => {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {isLoading && <LoaderIcon type={'spin'} color={'blue'} />}
+      {isError && (
+        <Alert severity="error">
+          <AlertTitle>Ошибка</AlertTitle>
+          При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
+        </Alert>
+      )}
       <section className={reg['registration']}>
         <h2 className={reg['registration-title']}>Create new account</h2>
         <label className={reg['registration-label']}>

@@ -1,7 +1,8 @@
-import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import LoaderIcon from 'react-loader-icon';
+import { Alert, AlertTitle, Button } from '@mui/material';
 
 import input from '../../App/App.module.scss';
 import { postUserLogin } from '../../BlogApi/BlogApi';
@@ -9,6 +10,7 @@ import { postUserLogin } from '../../BlogApi/BlogApi';
 import log from './Login.module.scss';
 
 const Login = () => {
+  const { isError, isLoading } = useSelector((state) => state.blogSlice);
   const navigate = useNavigate();
   const {
     register,
@@ -23,7 +25,7 @@ const Login = () => {
     const { email, password } = data;
     dispatch(postUserLogin({ email, password }));
     console.log(data);
-    navigate('../articles', { replace: true });
+    // navigate('../articles', { replace: true });
     reset();
   };
 
@@ -32,6 +34,13 @@ const Login = () => {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {isLoading && <LoaderIcon type={'spin'} color={'blue'} />}
+      {isError && (
+        <Alert severity="error">
+          <AlertTitle>Ошибка</AlertTitle>
+          При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
+        </Alert>
+      )}
       <section className={log['login']}>
         <h2 className={log['login-title']}>Sign In</h2>
         <label className={log['login-label']}>

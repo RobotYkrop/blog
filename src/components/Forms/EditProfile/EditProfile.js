@@ -1,6 +1,7 @@
-import { Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
+import LoaderIcon from 'react-loader-icon';
+import { Alert, AlertTitle, Button } from '@mui/material';
 
 import input from '../../App/App.module.scss';
 import { putUpdateUser } from '../../BlogApi/BlogApi';
@@ -9,7 +10,7 @@ import profile from './EditProfile.module.scss';
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { userInfo, token } = useSelector((state) => state.blogSlice);
+  const { userInfo, token, isError, isLoading } = useSelector((state) => state.blogSlice);
   const { username, email } = userInfo;
   const {
     register,
@@ -27,6 +28,13 @@ const Profile = () => {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {isLoading && <LoaderIcon type={'spin'} color={'blue'} />}
+      {isError && (
+        <Alert severity="error">
+          <AlertTitle>Ошибка</AlertTitle>
+          При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
+        </Alert>
+      )}
       <section className={profile['profile']}>
         <h2 className={profile['profile-title']}>Edit Profile</h2>
         <label className={profile['profile-label']}>
