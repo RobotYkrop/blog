@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getArticle, getOneArticle } from '../components/BlogApi/BlogApi';
+import {
+  getArticle,
+  getOneArticle,
+  postRegisterUser,
+  postUserLogin,
+  putUpdateUser,
+} from '../components/BlogApi/BlogApi';
 
 const blogSlice = createSlice({
   name: 'blog',
@@ -11,9 +17,27 @@ const blogSlice = createSlice({
     postsCount: 0,
     isError: false,
     isLoading: false,
+    userInfo: {},
+    token: null,
   },
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.token = null;
+      state.userInfo = {};
+    },
+  },
   extraReducers: {
+    [putUpdateUser.fulfilled]: (state, action) => {
+      state.userInfo = action.payload.user;
+    },
+    [postRegisterUser.fulfilled]: (state, action) => {
+      state.token = action.payload.user.token;
+      state.userInfo = action.payload.user;
+    },
+    [postUserLogin.fulfilled]: (state, action) => {
+      state.token = action.payload.user.token;
+      state.userInfo = action.payload.user;
+    },
     [getOneArticle.pending]: (state) => {
       state.isError = false;
       state.isLoading = true;
@@ -45,6 +69,6 @@ const blogSlice = createSlice({
   },
 });
 
-export const { setCurrentPage, setCurrentLimit } = blogSlice.actions;
+export const { logout } = blogSlice.actions;
 
 export default blogSlice.reducer;

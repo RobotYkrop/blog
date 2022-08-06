@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .App {
   font-family: 'Inter';
   font-style: normal;
@@ -9,5 +11,9 @@ button {
   margin: 0;
   background-color: white;
   border: none;
+  color: rgba(0, 0, 0, 0.75);
   cursor: pointer;
+}
+.error {
+  color: $error;
 }

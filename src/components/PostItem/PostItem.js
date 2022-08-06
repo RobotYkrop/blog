@@ -29,7 +29,7 @@ const PostItem = ({ slug, title, description, createdAt, tagList, author, favori
           <span>{author.username}</span>
           <span className={list['created-date']}>{megaDate}</span>
         </div>
-        <Avatar className={list['image']} src={author.image} alt={author.username} />
+        <Avatar className={list['image']} src={author.image} alt="No Avatar" />
       </div>
     </li>
   );
