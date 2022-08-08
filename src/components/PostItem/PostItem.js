@@ -2,15 +2,34 @@ import { Link } from 'react-router-dom';
 import { Avatar, Checkbox } from '@mui/material';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
+import { uniqueId } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 
-import { convertCreatedDate, mapTags, titleNull } from '../utilites/utilites';
+import { convertCreatedDate, titleNull } from '../utilites/utilites';
+import { postLikes, deleteLikes } from '../BlogApi/BlogApi';
 
 import list from './PostItem.module.scss';
 
 const PostItem = ({ slug, title, description, createdAt, tagList, author, favoritesCount }) => {
+  const { token, favorited } = useSelector((state) => state.blogSlice);
+  const [checkFavorite, setCheckFavorite] = useState(favorited);
+  const [Count, setFavoriteCount] = useState(favoritesCount);
   const megaTitle = titleNull(title);
   const megaDate = convertCreatedDate(createdAt);
-  const megaTags = mapTags(tagList);
+
+  const likeButtonHandler = (e) => {
+    if (e.target.checked) {
+      dispatch(postLikes({ slug, token }));
+      setCheckFavorite(true);
+      setFavoriteCount(Count + 1);
+    } else {
+      dispatch(deleteLikes({ slug, token }));
+      setCheckFavorite(false);
+      setFavoriteCount(Count - 1);
+    }
+  };
+  const dispatch = useDispatch();
   return (
     <li className={list['post']}>
       <div>
@@ -18,10 +37,25 @@ const PostItem = ({ slug, title, description, createdAt, tagList, author, favori
           <Link to={`${slug}`}>
             <h2 className={list['title']}>{megaTitle}</h2>
           </Link>
-          <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
-          <span>{favoritesCount}</span>
+          {token ? (
+            <Checkbox
+              icon={<FavoriteBorder />}
+              onChange={(e) => likeButtonHandler(e)}
+              checkedIcon={<Favorite />}
+              checked={checkFavorite}
+            />
+          ) : (
+            <Checkbox icon={<FavoriteBorder />} disabled />
+          )}
+          <span>{Count}</span>
         </div>
-        <span className={list['tag']}>{megaTags}</span>
+        {tagList.map((item) => {
+          return (
+            <span key={uniqueId()} className={list['tag']}>
+              {item}
+            </span>
+          );
+        })}
         <p className={list['description']}>{description}</p>
       </div>
       <div className={list['user']}>

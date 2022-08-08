@@ -14,6 +14,7 @@ const PostList = () => {
   const [offset, setOffset] = useState(0);
   const [page, setPage] = useState();
   const { postsCount, articles, isError, isLoading } = useSelector((state) => state.blogSlice);
+
   useEffect(() => {
     setPage(offset / 5 + 1);
     dispatch(getArticle({ offset }));

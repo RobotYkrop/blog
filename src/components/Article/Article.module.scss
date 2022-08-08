@@ -19,12 +19,35 @@
   }
   & .user {
     display: grid;
-    grid-template-columns: 1fr 0.8fr;
+    grid-template-columns: 1fr 0.4fr;
+    gap: 1em;
     justify-items: end;
     & .user-name {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
+    }
+    & .buttons {
+      display: flex;
+      gap: 1em;
+    }
+    & .delete {
+      color: red;
+      border-color: red;
+      border: 1px solid red;
+      border-radius: 5px;
+      &:hover {
+        border: 1px dashed red;
+      }
+    }
+    & .edit {
+      background-color: white;
+      color: $sign_up;
+      border: 1px solid $sign_up;
+      border-radius: 5px;
+      &:hover {
+        border: 1px dashed rgb(25, 255, 45);
+      }
     }
   }
   & .title {
@@ -36,6 +59,7 @@
   & .tag {
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 2px;
+    margin-right: 0.5em;
     padding: 0.2em;
   }
   & .description {

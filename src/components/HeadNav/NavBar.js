@@ -37,9 +37,11 @@ const NavBar = () => {
       )}
       {token && (
         <div className={nav['nav-sign']}>
-          <Button variant="outlined" className={nav['create_article']}>
-            Create article
-          </Button>
+          <Link to={'new-article'}>
+            <Button variant="outlined" className={nav['create_article']}>
+              Create article
+            </Button>
+          </Link>
           <div className={nav['nav-user--block']}>
             <Link to={`profile/${userInfo.username}`}>
               <span className={nav['username']}>{userInfo.username}</span>

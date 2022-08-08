@@ -42,7 +42,7 @@ export const postRegisterUser = createAsyncThunk(
   'blog/postRegisterUser',
   async ({ username, email, password, rejectWithValue }) => {
     try {
-      const res = await fetch('https://blog.kata.academy/api/users', {
+      const res = await fetch(URL + 'users', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -75,7 +75,7 @@ export const postRegisterUser = createAsyncThunk(
 
 export const postUserLogin = createAsyncThunk('blog/postUserLogin', async ({ email, password, rejectWithValue }) => {
   try {
-    const res = await fetch('https://blog.kata.academy/api/users/login', {
+    const res = await fetch(URL + 'users/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -107,7 +107,7 @@ export const putUpdateUser = createAsyncThunk(
   'blog/postUserLogin',
   async ({ username, email, password, image, token, rejectWithValue }) => {
     try {
-      const res = await fetch('https://blog.kata.academy/api/user', {
+      const res = await fetch(URL + 'user', {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -138,3 +138,148 @@ export const putUpdateUser = createAsyncThunk(
     }
   }
 );
+
+export const postCreateArticle = createAsyncThunk(
+  'blog/postCreateArticle',
+  async ({ title, description, body, tagList, token, rejectWithValue }) => {
+    try {
+      const res = await fetch(URL + 'articles', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          article: {
+            title: title,
+            description: description,
+            body: body,
+            tagList: tagList,
+          },
+        }),
+      });
+      const json = res.json();
+      console.log(res);
+      if (!res.ok) {
+        throw 'Error';
+      }
+      console.log(json);
+      return json;
+    } catch (err) {
+      if (!err.res) {
+        throw new Error(err.message);
+      }
+      return rejectWithValue(err.res.json);
+    }
+  }
+);
+
+export const putUpdateArticle = createAsyncThunk(
+  'blog/putUpdateArticle',
+  async ({ slug, title, description, body, tagList, token, rejectWithValue }) => {
+    try {
+      const res = await fetch(URL + `articles/${slug}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          article: {
+            title: title,
+            description: description,
+            body: body,
+            tagList: tagList,
+          },
+        }),
+      });
+      const json = res.json();
+      console.log(res);
+      if (!res.ok) {
+        throw 'Error';
+      }
+      console.log(json);
+      return json;
+    } catch (err) {
+      if (!err.res) {
+        throw new Error(err.message);
+      }
+      return rejectWithValue(err.res.json);
+    }
+  }
+);
+
+export const deleteArticle = createAsyncThunk('blog/deleteArticle', async ({ slug, token, rejectWithValue }) => {
+  try {
+    const res = await fetch(URL + `articles/${slug}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(res);
+    if (!res.ok) {
+      throw 'Error';
+    }
+    return await res.json();
+  } catch (err) {
+    if (!err.res) {
+      throw new Error(err.message);
+    }
+    return rejectWithValue(err.res.json);
+  }
+});
+
+export const postLikes = createAsyncThunk('blog/postLikes', async ({ slug, token, rejectWithValue }) => {
+  try {
+    const res = await fetch(URL + `articles/${slug}/favorite`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const json = res.json();
+    console.log(res);
+    if (!res.ok) {
+      throw 'Error';
+    }
+    console.log(json);
+    return json;
+  } catch (err) {
+    if (!err.res) {
+      throw new Error(err.message);
+    }
+    return rejectWithValue(err.res.json);
+  }
+});
+
+export const deleteLikes = createAsyncThunk('blog/deleteLikes', async ({ slug, token, rejectWithValue }) => {
+  try {
+    const res = await fetch(URL + `articles/${slug}/favorite`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const json = res.json();
+    console.log(res);
+    if (!res.ok) {
+      throw 'Error';
+    }
+    console.log(json);
+    return json;
+  } catch (err) {
+    if (!err.res) {
+      throw new Error(err.message);
+    }
+    return rejectWithValue(err.res.json);
+  }
+});

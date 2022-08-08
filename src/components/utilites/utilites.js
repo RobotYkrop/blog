@@ -7,7 +7,3 @@ export const convertCreatedDate = (date) => {
 export const titleNull = (title) => {
   return !title.trim().length ? 'Заголовок отсутствует' : title;
 };
-
-export const mapTags = (tagList) => {
-  return tagList.length === 0 ? 'Теги отсутствуют' : tagList.map((tag) => tag);
-};
