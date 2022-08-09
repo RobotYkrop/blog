@@ -50,7 +50,7 @@ const NavBar = () => {
               <Avatar className={nav['username-image']} src={userInfo.image} alt="No Avatar" />
             </Link>
           </div>
-          <Button onClick={() => dispatch(logOut())} variant="text" className={nav['log_out']}>
+          <Button onClick={() => logOut()} variant="text" className={nav['log_out']}>
             Log Out
           </Button>
         </div>

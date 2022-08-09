@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 
 import NavBar from '../HeadNav/NavBar';
 import PostList from '../PostList/PostList';
-import Article from '../Article/Article';
-import Login from '../Forms/Login/Login';
-import Registration from '../Forms/Registration/Registration';
-import Profile from '../Forms/EditProfile/EditProfile';
-import NewArticle from '../Forms/NewArticle/NewArticle';
-import EditArticle from '../Forms/EditArticle/EditArticle';
+import Article from '../ArticlesForm/Article/Article';
+import Login from '../Authentication/Login/Login';
+import Registration from '../Authentication/Registration/Registration';
+import Profile from '../Authentication/EditProfile/EditProfile';
+import NewArticle from '../ArticlesForm/NewArticle/NewArticle';
+import EditArticle from '../ArticlesForm/EditArticle/EditArticle';
 import NotFound from '../PageNotFount/NotFound';
 
 import app from './App.module.scss';

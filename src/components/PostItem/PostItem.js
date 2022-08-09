@@ -47,7 +47,7 @@ const PostItem = ({ slug, title, description, createdAt, tagList, author, favori
           ) : (
             <Checkbox icon={<FavoriteBorder />} disabled />
           )}
-          <span>{Count}</span>
+          {Count}
         </div>
         {tagList.map((item) => {
           return (

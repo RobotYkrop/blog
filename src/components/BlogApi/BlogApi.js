@@ -73,35 +73,35 @@ export const postRegisterUser = createAsyncThunk(
   }
 );
 
-export const postUserLogin = createAsyncThunk('blog/postUserLogin', async ({ email, password, rejectWithValue }) => {
-  try {
-    const res = await fetch(URL + 'users/login', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user: {
-          email: email,
-          password: password,
+export const postUserLogin = createAsyncThunk(
+  'blog/postUserLogin',
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const res = await fetch(URL + 'users/login', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-      }),
-    });
-    const json = res.json();
-    console.log(res);
-    if (!res.ok) {
-      throw 'Error';
+        body: JSON.stringify({
+          user: {
+            email: email,
+            password: password,
+          },
+        }),
+      });
+      const json = res.json();
+      console.log(res);
+      if (!res.ok) {
+        return rejectWithValue(res.status);
+      }
+      console.log(json);
+      return json;
+    } catch (err) {
+      throw rejectWithValue(err.message);
     }
-    console.log(json);
-    return json;
-  } catch (err) {
-    if (!err.res) {
-      throw new Error(err.message);
-    }
-    return rejectWithValue(err.res.json);
   }
-});
+);
 
 export const putUpdateUser = createAsyncThunk(
   'blog/postUserLogin',
@@ -131,10 +131,7 @@ export const putUpdateUser = createAsyncThunk(
       console.log(json);
       return json;
     } catch (err) {
-      if (!err.res) {
-        throw new Error(err.message);
-      }
-      return rejectWithValue(err.res.json);
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -155,7 +152,7 @@ export const postCreateArticle = createAsyncThunk(
             title: title,
             description: description,
             body: body,
-            tagList: tagList,
+            tagList: [...tagList],
           },
         }),
       });
@@ -167,10 +164,7 @@ export const postCreateArticle = createAsyncThunk(
       console.log(json);
       return json;
     } catch (err) {
-      if (!err.res) {
-        throw new Error(err.message);
-      }
-      return rejectWithValue(err.res.json);
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -191,7 +185,7 @@ export const putUpdateArticle = createAsyncThunk(
             title: title,
             description: description,
             body: body,
-            tagList: tagList,
+            tagList: [...tagList],
           },
         }),
       });
@@ -203,10 +197,7 @@ export const putUpdateArticle = createAsyncThunk(
       console.log(json);
       return json;
     } catch (err) {
-      if (!err.res) {
-        throw new Error(err.message);
-      }
-      return rejectWithValue(err.res.json);
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -227,10 +218,7 @@ export const deleteArticle = createAsyncThunk('blog/deleteArticle', async ({ slu
     }
     return await res.json();
   } catch (err) {
-    if (!err.res) {
-      throw new Error(err.message);
-    }
-    return rejectWithValue(err.res.json);
+    return rejectWithValue(err.message);
   }
 });
 
@@ -252,10 +240,7 @@ export const postLikes = createAsyncThunk('blog/postLikes', async ({ slug, token
     console.log(json);
     return json;
   } catch (err) {
-    if (!err.res) {
-      throw new Error(err.message);
-    }
-    return rejectWithValue(err.res.json);
+    return rejectWithValue(err.message);
   }
 });
 
@@ -277,9 +262,6 @@ export const deleteLikes = createAsyncThunk('blog/deleteLikes', async ({ slug, t
     console.log(json);
     return json;
   } catch (err) {
-    if (!err.res) {
-      throw new Error(err.message);
-    }
-    return rejectWithValue(err.res.json);
+    return rejectWithValue(err.message);
   }
 });

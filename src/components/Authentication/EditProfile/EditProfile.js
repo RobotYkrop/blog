@@ -1,12 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import LoaderIcon from 'react-loader-icon';
-import { Alert, AlertTitle, Button } from '@mui/material';
+import { Alert, AlertTitle, Button, TextField } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import input from '../../App/App.module.scss';
 import { putUpdateUser } from '../../BlogApi/BlogApi';
-
-import profile from './EditProfile.module.scss';
+import input from '../../App/App.module.scss';
+import profile from '../Auth.module.scss';
+import { schema } from '../../utilites/shemaValidation';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const Profile = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(schema) });
 
   console.log(errors);
   const onSubmit = (data) => {
@@ -35,71 +36,50 @@ const Profile = () => {
           При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
         </Alert>
       )}
-      <section className={profile['profile']}>
-        <h2 className={profile['profile-title']}>Edit Profile</h2>
-        <label className={profile['profile-label']}>
+      <section className={profile['modal']}>
+        <h2 className={profile['modal-title']}>Edit Profile</h2>
+        <label className={profile['modal-label']}>
           Username
-          <input
+          <TextField
             style={{ border: errors.username?.message ? '1px solid red' : '' }}
             defaultValue={username}
-            {...register('username', {
-              required: 'Username is required',
-              minLength: { value: 3, message: 'Min lenght is 4' },
-              maxLength: { value: 20, message: 'Max lenght is 20' },
-            })}
+            {...register('username')}
             placeholder="Username"
           />
           {errors.username && <span className={input['error']}>{errors.username.message}</span>}
         </label>
-        <label className={profile['profile-label']}>
+        <label className={profile['modal-label']}>
           Email address
-          <input
+          <TextField
             style={{ border: errors.email?.message ? '1px solid red' : '' }}
             defaultValue={email}
             type="email"
-            {...register('email', {
-              required: 'Email is required',
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: 'Entered value does not match email format',
-              },
-            })}
+            {...register('email')}
             placeholder="Email address"
           />
           {errors.email && <span className={input['error']}>{errors.email.message}</span>}
         </label>
-        <label className={profile['profile-label']}>
+        <label className={profile['modal-label']}>
           New Password
-          <input
+          <TextField
             style={{ border: errors.password?.message ? '1px solid red' : '' }}
             type="password"
-            {...register('password', {
-              required: 'Your password needs to be at least 6 characters.',
-              minLength: { value: 6, message: 'Min lenght is 6' },
-              maxLength: { value: 40, message: 'Max lenght is 40' },
-            })}
+            {...register('password')}
             placeholder="New Password"
           />
           {errors.password && <span className={input['error']}>{errors.password.message}</span>}
         </label>
-        <label className={profile['profile-label']}>
+        <label className={profile['modal-label']}>
           Avatar image (url)
-          <input
+          <TextField
             style={{ border: errors.password?.message ? '1px solid red' : '' }}
             placeholder="Avatar image"
-            {...register('image', {
-              required: 'URL required',
-              pattern: {
-                value:
-                  '[Hh][Tt][Tt][Pp][Ss]?://(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::d{2,5})?(?:/[^s]*)?',
-                message: 'Not correct URL address',
-              },
-            })}
+            {...register('image')}
             type="url"
           />
           {errors.url && <span className={input['error']}>{errors.url.message}</span>}
         </label>
-        <Button type="subnit" variant="contained">
+        <Button type="submit" variant="contained">
           Save
         </Button>
       </section>

@@ -1,46 +1,41 @@
 import { Button, Alert, AlertTitle, Box, TextField } from '@mui/material';
-import { uniqueId } from 'lodash';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { uniqueId } from 'lodash';
 
+import { putUpdateArticle } from '../../BlogApi/BlogApi';
 import inputErr from '../../App/App.module.scss';
-import { postCreateArticle } from '../../BlogApi/BlogApi';
+import article from '../NewArticle/NewArticle.module.scss';
 
-import article from './NewArticle.module.scss';
-
-const NewArticle = () => {
+const EditArticle = () => {
   const navigate = useNavigate();
+  const { oneArticle, isError, token } = useSelector((state) => state.blogSlice);
+  const { title, description, body } = oneArticle;
+  const { slug } = useParams();
   const dispatch = useDispatch();
-  const { token, isError } = useSelector((state) => state.blogSlice);
-
-  const [tagList, setTagList] = useState([]);
+  const [tagList, setTagList] = useState(oneArticle.tagList || []);
   const [tagValue, setTagValue] = useState('');
 
-  const handleClickAddTag = () => {
+  const addTag = () => {
     setTagList([...tagList, tagValue]);
     setTagValue('');
   };
 
-  const handleClickDeleteTag = (id) => {
+  const deleteTag = (id) => {
     setTagList(tagList.filter((_, index) => index !== id));
   };
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    const { title, description, body } = data;
-    dispatch(postCreateArticle({ title, description, body, tagList, token }));
-    console.log(data);
+  const onSubmit = ({ title, description, body }) => {
+    dispatch(putUpdateArticle({ slug, title, description, body, tagList, token }));
     navigate('../articles', { replace: true });
-    reset();
   };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={article['article']}>
       {isError && (
@@ -49,10 +44,11 @@ const NewArticle = () => {
           При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
         </Alert>
       )}
-      <h2 className={article['article-title']}>Create new article</h2>
+      <h2 className={article['article-title']}>Edit Article</h2>
       <label className={article['article-label']}>
         Title
-        <input
+        <TextField
+          defaultValue={title}
           placeholder="Title"
           {...register('title', {
             required: 'Title is required',
@@ -63,7 +59,8 @@ const NewArticle = () => {
       </label>
       <label className={article['article-label']}>
         Short description
-        <input
+        <TextField
+          defaultValue={description}
           placeholder="Description"
           {...register('description', {
             required: 'Description is required',
@@ -75,6 +72,7 @@ const NewArticle = () => {
       <label className={article['article-label']}>
         Text
         <textarea
+          defaultValue={body}
           className={article['body']}
           placeholder="Text"
           {...register('body', {
@@ -96,7 +94,7 @@ const NewArticle = () => {
                 sx={{
                   textTransform: 'none',
                 }}
-                onClick={() => handleClickDeleteTag(id)}
+                onClick={() => deleteTag(id)}
               >
                 Delete
               </Button>
@@ -123,7 +121,7 @@ const NewArticle = () => {
             mb: 2,
             textTransform: 'none',
           }}
-          onClick={handleClickAddTag}
+          onClick={addTag}
         >
           Add Tag
         </Button>
@@ -135,4 +133,4 @@ const NewArticle = () => {
   );
 };
 
-export default NewArticle;
+export default EditArticle;

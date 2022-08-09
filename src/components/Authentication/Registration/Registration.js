@@ -2,12 +2,13 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import LoaderIcon from 'react-loader-icon';
-import { Alert, AlertTitle, Button, Checkbox } from '@mui/material';
+import { Alert, AlertTitle, Button, Checkbox, TextField } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import input from '../../App/App.module.scss';
 import { postRegisterUser } from '../../BlogApi/BlogApi';
-
-import reg from './Registration.module.scss';
+import reg from '../Auth.module.scss';
+import { schema } from '../../utilites/shemaValidation';
 
 const Registration = () => {
   const { isError, isLoading } = useSelector((state) => state.blogSlice);
@@ -19,7 +20,7 @@ const Registration = () => {
     watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(schema) });
 
   console.log(errors);
   const onSubmit = (data) => {
@@ -41,54 +42,40 @@ const Registration = () => {
           При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
         </Alert>
       )}
-      <section className={reg['registration']}>
-        <h2 className={reg['registration-title']}>Create new account</h2>
-        <label className={reg['registration-label']}>
+      <section className={reg['modal']}>
+        <h2 className={reg['modal-title']}>Create new account</h2>
+        <label className={reg['modal-label']}>
           Username
-          <input
+          <TextField
             style={{ border: errors.username?.message ? '1px solid red' : '' }}
-            {...register('username', {
-              required: 'Username is required',
-              minLength: { value: 3, message: 'Min lenght is 4' },
-              maxLength: { value: 20, message: 'Max lenght is 20' },
-            })}
+            {...register('username')}
             placeholder="Username"
           />
           {errors.username && <span className={input['error']}>{errors.username.message}</span>}
         </label>
-        <label className={reg['registration-label']}>
+        <label className={reg['modal-label']}>
           Email address
-          <input
+          <TextField
             style={{ border: errors.email?.message ? '1px solid red' : '' }}
             type="email"
-            {...register('email', {
-              required: 'Email is required',
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: 'Entered value does not match email format',
-              },
-            })}
+            {...register('email')}
             placeholder="Email address"
           />
           {errors.email && <span className={input['error']}>{errors.email.message}</span>}
         </label>
-        <label className={reg['registration-label']}>
+        <label className={reg['modal-label']}>
           Password
-          <input
+          <TextField
             style={{ border: errors.password?.message ? '1px solid red' : '' }}
             type="password"
-            {...register('password', {
-              required: 'Your password needs to be at least 6 characters.',
-              minLength: { value: 6, message: 'Min lenght is 6' },
-              maxLength: { value: 40, message: 'Max lenght is 40' },
-            })}
+            {...register('password')}
             placeholder="Password"
           />
           {errors.password && <span className={input['error']}>{errors.password.message}</span>}
         </label>
-        <label className={reg['registration-label']}>
+        <label className={reg['modal-label']}>
           Repeat Password
-          <input
+          <TextField
             style={{ border: errors.repeat_password?.message ? '1px solid red' : '' }}
             type="password"
             {...register('repeat_password', {
@@ -109,9 +96,9 @@ const Registration = () => {
         <Button type="submit" variant="contained">
           Create
         </Button>
-        <span className={reg['registration-link']}>
+        <span className={reg['modal-link']}>
           Already have an account?
-          <button className={reg['linkSignIn']} onClick={() => LinkSignUp()}>
+          <button className={reg['linkSign']} onClick={() => LinkSignUp()}>
             Sign In
           </button>
           .

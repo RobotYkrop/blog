@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
+  deleteArticle,
+  deleteLikes,
   getArticle,
   getOneArticle,
+  postLikes,
   postRegisterUser,
   postUserLogin,
   putUpdateUser,
@@ -60,6 +63,7 @@ const blogSlice = createSlice({
     [postUserLogin.fulfilled]: (state, action) => {
       state.token = action.payload.user.token;
       state.userInfo = action.payload.user;
+      state.notUser = false;
     },
     [postUserLogin.rejected]: (state) => {
       state.isError = true;
@@ -92,6 +96,20 @@ const blogSlice = createSlice({
       state.isLoading = false;
     },
     [getArticle.rejected]: (state) => {
+      state.isError = true;
+      state.isLoading = false;
+    },
+    // Ошибки при follow
+    [postLikes.rejected]: (state) => {
+      state.isError = true;
+      state.isLoading = false;
+    },
+    [deleteLikes.rejected]: (state) => {
+      state.isError = true;
+      state.isLoading = false;
+    },
+    // Удаление article
+    [deleteArticle.rejected]: (state) => {
       state.isError = true;
       state.isLoading = false;
     },

@@ -1,6 +1,7 @@
-.article {
+.modal {
   display: grid;
   font-family: 'Roboto';
+  width: 400px;
   margin-left: auto;
   margin-right: auto;
   padding: 2em;
@@ -18,27 +19,8 @@
     display: grid;
   }
   & input {
-    padding: 0.4em 10em 0.4em 0.5em;
-    background: #ffffff;
+    padding: 0.7em 10em 0.7em 0.5em;
     border: 1px solid #d9d9d9;
-    border-radius: 4px;
-  }
-  & .body {
-    height: 100px;
-  }
-  & .tags {
-    display: flex;
-    & button {
-        margin-left: 1em;
-    }
-    & .delete {
-        color: red;
-        border-color: red;
-    }
-    & input {
-        padding: 0;
-        padding-right: 2em;
-    }
   }
   & .reg-checkdoc {
     display: flex;
@@ -49,9 +31,11 @@
       padding-left: 0;
     }
   }
-  & .send {
-    margin-right: auto;
-    padding-left: 8em;
-    padding-right: 8em;
+  &-link {
+    text-align: center;
+    .linkSign {
+      margin-left: 0.2em;
+      color: rgb(113, 113, 255);
+    }
   }
 }

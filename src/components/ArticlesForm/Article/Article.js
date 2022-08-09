@@ -1,5 +1,5 @@
 import { uniqueId } from 'lodash';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderIcon from 'react-loader-icon';
 import { Alert, AlertTitle, Avatar, Button, Checkbox } from '@mui/material';
@@ -8,32 +8,32 @@ import Favorite from '@mui/icons-material/Favorite';
 import { FavoriteBorder } from '@mui/icons-material';
 
 import list from '../Article/Article.module.scss';
-import { getOneArticle } from '../BlogApi/BlogApi';
-import { convertCreatedDate } from '../utilites/utilites';
-import ModalDelete from '../ModalDelete/ModalDelete';
+import { getOneArticle, deleteLikes, postLikes } from '../../BlogApi/BlogApi';
+import { convertCreatedDate } from '../../utilites/utilites';
+import ModalDelete from '../../ModalDelete/ModalDelete';
 
 const Article = () => {
   const { oneArticle, author, isError, isLoading, token } = useSelector((state) => state.blogSlice);
-  const { title, description, createdAt, tagList, body, favoritesCount } = oneArticle;
+  const { title, description, createdAt, tagList, body, favoritesCount, favorited } = oneArticle;
   const { image, username } = author;
   const megaDate = convertCreatedDate(createdAt);
   const { slug } = useParams();
   const dispatch = useDispatch();
 
-  // const [checkFavorite, setCheckFavorite] = useState(favorited);
-  // const [Count, setFavoriteCount] = useState(favoritesCount);
+  const [checkFavorite, setCheckFavorite] = useState(favorited);
+  const [Count, setFavoriteCount] = useState(favoritesCount);
 
-  // const likeButtonHandler = (e) => {
-  //   if (e.target.checked) {
-  //     dispatch(postLikes({ slug, token }));
-  //     setCheckFavorite(true);
-  //     setFavoriteCount(Count + 1);
-  //   } else {
-  //     dispatch(deleteLikes({ slug, token }));
-  //     setCheckFavorite(false);
-  //     setFavoriteCount(Count - 1);
-  //   }
-  // };
+  const likeButtonHandler = (e) => {
+    if (e.target.checked) {
+      dispatch(postLikes({ slug, token }));
+      setCheckFavorite(true);
+      setFavoriteCount(Count + 1);
+    } else {
+      dispatch(deleteLikes({ slug, token }));
+      setCheckFavorite(false);
+      setFavoriteCount(Count - 1);
+    }
+  };
 
   useEffect(() => {
     dispatch(getOneArticle(slug));
@@ -55,11 +55,16 @@ const Article = () => {
                 <h2 className={list['title']}>{title}</h2>
                 <span>
                   {token ? (
-                    <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+                    <Checkbox
+                      onChange={(e) => likeButtonHandler(e)}
+                      icon={<FavoriteBorder />}
+                      checkedIcon={<Favorite />}
+                      checked={checkFavorite}
+                    />
                   ) : (
                     <Checkbox icon={<FavoriteBorder />} disabled />
                   )}
-                  <span>{favoritesCount}</span>
+                  {Count}
                 </span>
               </div>
               {tagList.map((item) => {
@@ -95,47 +100,3 @@ const Article = () => {
 };
 
 export default Article;
-
-// function App() {
-//   const [allCards, setAllCards] = React.useState([]);
-//   const [loading, setLoading] = React.useState(false);
-
-//   React.useEffect(() => {
-//     setLoading(true);
-
-//     const apiUrl = 'https://test-api-921f7-default-rtdb.firebaseio.com/cards.json';
-//     axios.get(apiUrl).then((resp) => {
-//       const allCards = resp.data;
-//       setAllCards(allCards);
-//       setLoading(false);
-//     });
-//   }, []);
-
-//   const likeButtonHandler = (id) => {
-//     setAllCards(allCards.map((item) => (item.id === id ? { ...item, liked: !item.liked } : item)));
-//   };
-
-//   return (
-//     <div className="app">
-//       <div>
-//         {loading
-//           ? 'Loading...'
-//           : allCards.map(({ id, name, liked, link }) => (
-//               <div
-//                 key={id}
-//                 style={{
-//                   border: '1px solid black',
-//                   margin: '1rem',
-//                   padding: '1rem',
-//                 }}
-//               >
-//                 <div>Name: {name}</div>
-//                 <div>Liked: {liked.toString()}</div>
-//                 <img src={link} style={{ maxWidth: '100px' }} />
-//                 <button onClick={() => likeButtonHandler(id)}>{liked ? 'unlike me' : 'like me'}</button>
-//               </div>
-//             ))}
-//       </div>
-//     </div>
-//   );
-// }
