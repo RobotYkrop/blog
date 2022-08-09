@@ -14,7 +14,6 @@ const NavBar = () => {
     dispatch(logout());
     navigate('../articles', { replace: true });
   };
-  console.log(token);
   console.log(userInfo);
   return (
     <nav className={nav['nav']}>

@@ -2,6 +2,7 @@
 
 .post {
   display: flex;
+  position: relative;
   gap: 8em;
   padding: 1em;
   margin-bottom: 2em;
@@ -17,6 +18,9 @@
   }
   & .user {
     display: grid;
+    position: absolute;
+    right: 10px;
+    top: 5px;
     grid-template-columns: 1fr 0.8fr;
     justify-items: end;
     & .user-name {

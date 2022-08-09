@@ -1,6 +1,7 @@
 @import '../../../variables';
 
 .expanded-post {
+  position: relative;
   padding: 1em;
   margin-bottom: 2em;
   filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
@@ -19,6 +20,9 @@
   }
   & .user {
     display: grid;
+    position: absolute;
+    right: 10px;
+    top: 10px;
     grid-template-columns: 1fr 0.4fr;
     gap: 1em;
     justify-items: end;
@@ -28,6 +32,9 @@
       align-items: flex-end;
     }
     & .buttons {
+      position: absolute;
+      right: 0;
+      top: 55px;
       display: flex;
       gap: 1em;
     }
@@ -59,7 +66,7 @@
   & .tag {
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 2px;
-    margin-right: 0.5em;
+    margin-right: 0.3em;
     padding: 0.2em;
   }
   & .description {

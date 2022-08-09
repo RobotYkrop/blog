@@ -8,7 +8,6 @@ import LoaderIcon from 'react-loader-icon';
 import store, { persistor } from './store/store';
 import App from './components/App/App';
 
-import './index.css';
 import 'modern-normalize';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

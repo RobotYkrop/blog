@@ -37,6 +37,7 @@ const blogSlice = createSlice({
     },
     [putUpdateUser.fulfilled]: (state, action) => {
       state.userInfo = action.payload.user;
+      state.isLoading = false;
     },
     [putUpdateUser.rejected]: (state) => {
       state.isError = true;

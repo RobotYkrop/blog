@@ -4,13 +4,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoaderIcon from 'react-loader-icon';
 import { Alert, AlertTitle, Button, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import input from '../../App/App.module.scss';
 import { postUserLogin } from '../../BlogApi/BlogApi';
 import log from '../Auth.module.scss';
-import { schema } from '../../utilites/shemaValidation';
 
 const Login = () => {
+  const schema = yup
+    .object()
+    .shape({
+      email: yup.string().email().required('Email is required'),
+      password: yup
+        .string()
+        .min(6, 'Min lenght is 6')
+        .max(40, 'Max lenght is 40')
+        .required('Your password needs to be at least 6 characters.'),
+    })
+    .required();
   const { isError, isLoading, token } = useSelector((state) => state.blogSlice);
   const navigate = useNavigate();
   const {
@@ -23,6 +34,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     const { email, password } = data;
     dispatch(postUserLogin({ email, password }));
+    console.log(data);
   };
 
   const LinkSignUp = () => {

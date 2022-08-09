@@ -4,14 +4,26 @@ import { useNavigate } from 'react-router-dom';
 import LoaderIcon from 'react-loader-icon';
 import { Alert, AlertTitle, Button, Checkbox, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import input from '../../App/App.module.scss';
 import { postRegisterUser } from '../../BlogApi/BlogApi';
 import reg from '../Auth.module.scss';
-import { schema } from '../../utilites/shemaValidation';
 
 const Registration = () => {
-  const { isError, isLoading } = useSelector((state) => state.blogSlice);
+  const schema = yup
+    .object()
+    .shape({
+      email: yup.string().email().required('Email is required'),
+      password: yup
+        .string()
+        .min(6, 'Min lenght is 6')
+        .max(40, 'Max lenght is 40')
+        .required('Your password needs to be at least 6 characters.'),
+      username: yup.string().min(3, 'Min lenght is 3').max(20, 'Max lenght is 20').required('Username is required'),
+    })
+    .required();
+  const { userInfo, isError, isLoading } = useSelector((state) => state.blogSlice);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -27,7 +39,7 @@ const Registration = () => {
     const { username, email, password, image } = data;
     dispatch(postRegisterUser({ username, email, password, image }));
     navigate('../articles', { replace: true });
-    reset();
+    userInfo ?? reset();
     console.log(data);
   };
   const LinkSignUp = () => {
