@@ -51,6 +51,8 @@ const blogSlice = createSlice({
     [postRegisterUser.fulfilled]: (state, action) => {
       state.token = action.payload.user.token;
       state.userInfo = action.payload.user;
+      state.isError = false;
+      state.isLoading = false;
     },
     [postRegisterUser.rejected]: (state) => {
       state.isError = true;
@@ -64,7 +66,8 @@ const blogSlice = createSlice({
     [postUserLogin.fulfilled]: (state, action) => {
       state.token = action.payload.user.token;
       state.userInfo = action.payload.user;
-      state.notUser = false;
+      state.isError = false;
+      state.isLoading = false;
     },
     [postUserLogin.rejected]: (state) => {
       state.isError = true;

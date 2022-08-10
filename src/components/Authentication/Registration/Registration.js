@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import LoaderIcon from 'react-loader-icon';
-import { Alert, AlertTitle, Button, Checkbox, TextField } from '@mui/material';
+import { Alert, AlertTitle, Button, Checkbox, InputBase } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -58,7 +58,7 @@ const Registration = () => {
         <h2 className={reg['modal-title']}>Create new account</h2>
         <label className={reg['modal-label']}>
           Username
-          <TextField
+          <InputBase
             style={{ border: errors.username?.message ? '1px solid red' : '' }}
             {...register('username')}
             placeholder="Username"
@@ -67,7 +67,7 @@ const Registration = () => {
         </label>
         <label className={reg['modal-label']}>
           Email address
-          <TextField
+          <InputBase
             style={{ border: errors.email?.message ? '1px solid red' : '' }}
             type="email"
             {...register('email')}
@@ -77,7 +77,7 @@ const Registration = () => {
         </label>
         <label className={reg['modal-label']}>
           Password
-          <TextField
+          <InputBase
             style={{ border: errors.password?.message ? '1px solid red' : '' }}
             type="password"
             {...register('password')}
@@ -87,7 +87,7 @@ const Registration = () => {
         </label>
         <label className={reg['modal-label']}>
           Repeat Password
-          <TextField
+          <InputBase
             style={{ border: errors.repeat_password?.message ? '1px solid red' : '' }}
             type="password"
             {...register('repeat_password', {

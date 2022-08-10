@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert, AlertTitle, Button, TextField } from '@mui/material';
+import { Alert, AlertTitle, Button, InputBase } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -51,7 +51,7 @@ const Profile = () => {
         <h2 className={profile['modal-title']}>Edit Profile</h2>
         <label className={profile['modal-label']}>
           Username
-          <TextField
+          <InputBase
             style={{ border: errors.username?.message ? '1px solid red' : '' }}
             defaultValue={username}
             {...register('username')}
@@ -61,7 +61,7 @@ const Profile = () => {
         </label>
         <label className={profile['modal-label']}>
           Email address
-          <TextField
+          <InputBase
             style={{ border: errors.email?.message ? '1px solid red' : '' }}
             defaultValue={email}
             type="email"
@@ -72,7 +72,7 @@ const Profile = () => {
         </label>
         <label className={profile['modal-label']}>
           New Password
-          <TextField
+          <InputBase
             style={{ border: errors.password?.message ? '1px solid red' : '' }}
             type="password"
             {...register('password')}
@@ -82,7 +82,7 @@ const Profile = () => {
         </label>
         <label className={profile['modal-label']}>
           Avatar image (url)
-          <TextField
+          <InputBase
             style={{ border: errors.password?.message ? '1px solid red' : '' }}
             placeholder="Avatar image"
             {...register('image')}

@@ -73,6 +73,7 @@ export const postUserLogin = createAsyncThunk('blog/postUserLogin', async ({ ema
         },
       }),
     });
+    console.log(res);
     const json = res.json();
     if (!res.ok) {
       throw Error;

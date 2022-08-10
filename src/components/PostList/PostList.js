@@ -36,6 +36,7 @@ const PostList = () => {
             })}
           </ul>
           <Pagination
+            color="primary"
             className={list['list-pagination']}
             count={Math.ceil(postsCount / 5)}
             page={page}

@@ -1,4 +1,4 @@
-import { Button, Alert, AlertTitle, Box, TextField } from '@mui/material';
+import { Button, Alert, AlertTitle, Box, InputBase } from '@mui/material';
 import { uniqueId } from 'lodash';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -12,7 +12,6 @@ import inputErr from '../../components/App/App.module.scss';
 import article from './Article.module.scss';
 
 const FormArticle = ({ oneArticle, formSubmit }) => {
-  const { title, tagList, body, description } = oneArticle;
   const schema = yup
     .object()
     .shape({
@@ -23,11 +22,11 @@ const FormArticle = ({ oneArticle, formSubmit }) => {
     .required();
   const navigate = useNavigate();
   const { isError } = useSelector((state) => state.blogSlice);
-  const [tags, setTagList] = useState(tagList || []);
+  const [tags, setTagList] = useState(oneArticle?.tagList || []);
   const [value, setValue] = useState('');
 
   const addTag = () => {
-    setTagList([...tagList, value]);
+    setTagList([...tags, value]);
     setValue('');
   };
 
@@ -42,15 +41,15 @@ const FormArticle = ({ oneArticle, formSubmit }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: title || '',
-      description: description || '',
-      body: body || '',
+      title: oneArticle?.title || '',
+      description: oneArticle?.description || '',
+      body: oneArticle?.body || '',
     },
     resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
-    formSubmit({ ...data }, tagList);
+    formSubmit({ ...data }, tags);
     console.log(data);
     navigate('../articles', { replace: true });
     reset();
@@ -67,12 +66,12 @@ const FormArticle = ({ oneArticle, formSubmit }) => {
       <h2 className={article['article-title']}>Create new article</h2>
       <label className={article['article-label']}>
         Title
-        <TextField id="title" placeholder="Title" {...register('title')} />
+        <InputBase id="title" placeholder="Title" {...register('title')} />
         {errors.title && <span className={inputErr['error']}>{errors.title.message}</span>}
       </label>
       <label className={article['article-label']}>
         Short description
-        <TextField id="description" placeholder="Description" {...register('description')} />
+        <InputBase id="description" placeholder="Description" {...register('description')} />
         {errors.description && <span className={inputErr['error']}>{errors.description.message}</span>}
       </label>
       <label className={article['article-label']}>
@@ -81,36 +80,26 @@ const FormArticle = ({ oneArticle, formSubmit }) => {
         {errors.description && <span className={inputErr['error']}>{errors.description.message}</span>}
       </label>
       Tags
-      <div>
+      <div className={article['tags']}>
         {tags &&
           tags.map((item, id) => (
             <Box key={uniqueId()} sx={{ mb: 2 }}>
-              <TextField id={item} value={item} size="small" sx={{ mr: 2 }} {...register('tagList')} />
+              <InputBase id={item} value={item} {...register('tagList')} />
               <Button variant="outlined" color="error" onClick={() => deleteTag(id)}>
                 Delete
               </Button>
             </Box>
           ))}
-        <TextField
+        <InputBase
           id="tag"
           value={value}
           variant="outlined"
-          size="small"
-          sx={{
-            mr: 1,
-          }}
           {...register('tagList')}
           onChange={(event) => {
             setValue(event.target.value);
           }}
         />
-        <Button
-          variant="outlined"
-          sx={{
-            mb: 2,
-          }}
-          onClick={addTag}
-        >
+        <Button variant="outlined" onClick={addTag}>
           Add Tag
         </Button>
       </div>

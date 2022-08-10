@@ -5,6 +5,7 @@ import Favorite from '@mui/icons-material/Favorite';
 import { uniqueId } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
+import { pink } from '@mui/material/colors';
 
 import { convertCreatedDate, titleNull } from '../utilites/utilites';
 import { postLikes, deleteLikes } from '../BlogApi/BlogApi';
@@ -39,6 +40,12 @@ const PostItem = ({ slug, title, description, createdAt, tagList, author, favori
           </Link>
           {token ? (
             <Checkbox
+              sx={{
+                color: pink[800],
+                '&.Mui-checked': {
+                  color: pink[600],
+                },
+              }}
               icon={<FavoriteBorder />}
               onChange={(e) => likeButtonHandler(e)}
               checkedIcon={<Favorite />}

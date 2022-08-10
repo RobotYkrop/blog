@@ -2,11 +2,18 @@
 
 .nav {
   display: flex;
-  padding: 1.5em;
+  padding: 1em;
   background: white;
   align-items: center;
+  margin-bottom: 1.5em;
+  font-size: 18px;
+  line-height: 28px;
+  &-title {
+    margin-bottom: 0;
+  }
   & .create_article {
-    height: 30px;
+    height: 25px;
+    padding: 0.5em;
     color: $sign_up;
     border: 1px solid $sign_up;
     border-radius: 5px;
@@ -24,6 +31,7 @@
   }
   & .log_out {
     border-radius: 5px;
+    padding: .8em;
     color: black;
     border: 1px solid black;
   }
@@ -36,7 +44,7 @@
   & .sign_up {
     background-color: white;
     padding: 0.5em 1em;
-    margin-left: 2em;
+    margin-left: 1em;
     color: $sign_up;
     border: 1px solid $sign_up;
     border-radius: 5px;
@@ -47,5 +55,6 @@
   & .sign_in {
     background-color: white;
     border: none;
+    color: black;
   }
 }

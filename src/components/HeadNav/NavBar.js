@@ -18,7 +18,7 @@ const NavBar = () => {
   return (
     <nav className={nav['nav']}>
       <Link to={'articles'}>
-        <h3>Realworld Blog</h3>
+        <h3 className={nav['nav-title']}>Realworld Blog</h3>
       </Link>
       {!token && (
         <div className={nav['nav-sign']}>

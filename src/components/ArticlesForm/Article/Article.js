@@ -6,6 +6,7 @@ import { Alert, AlertTitle, Avatar, Button, Checkbox } from '@mui/material';
 import { useParams, Link } from 'react-router-dom';
 import Favorite from '@mui/icons-material/Favorite';
 import { FavoriteBorder } from '@mui/icons-material';
+import { pink } from '@mui/material/colors';
 
 import list from '../Article/Article.module.scss';
 import { getOneArticle, deleteLikes, postLikes } from '../../BlogApi/BlogApi';
@@ -56,6 +57,12 @@ const Article = () => {
                 <span>
                   {token ? (
                     <Checkbox
+                      sx={{
+                        color: pink[800],
+                        '&.Mui-checked': {
+                          color: pink[600],
+                        },
+                      }}
                       onChange={(e) => likeButtonHandler(e)}
                       icon={<FavoriteBorder />}
                       checkedIcon={<Favorite />}

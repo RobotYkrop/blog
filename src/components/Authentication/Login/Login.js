@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderIcon from 'react-loader-icon';
-import { Alert, AlertTitle, Button, TextField } from '@mui/material';
+import { Alert, AlertTitle, Button, InputBase } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -14,7 +14,7 @@ const Login = () => {
   const schema = yup
     .object()
     .shape({
-      email: yup.string().email().required('Email is required'),
+      email: yup.string().required('Email is required'),
       password: yup
         .string()
         .min(6, 'Min lenght is 6')
@@ -55,7 +55,7 @@ const Login = () => {
           <h2 className={log['modal-title']}>Sign In</h2>
           <label className={log['modal-label']}>
             Email address
-            <TextField
+            <InputBase
               placeholder="Email address"
               style={{ border: errors.email?.message ? '1px solid red' : '' }}
               {...register('email')}
@@ -65,7 +65,7 @@ const Login = () => {
           </label>
           <label className={log['modal-label']}>
             Password
-            <TextField
+            <InputBase
               placeholder="Password"
               style={{ border: errors.password?.message ? '1px solid red' : '' }}
               type="password"
