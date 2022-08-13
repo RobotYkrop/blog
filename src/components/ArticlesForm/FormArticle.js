@@ -1,5 +1,4 @@
 import { Button, Alert, AlertTitle, Box, InputBase } from '@mui/material';
-import { uniqueId } from 'lodash';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -81,22 +80,21 @@ const FormArticle = ({ oneArticle, formSubmit }) => {
       </label>
       Tags
       <div className={article['tags']}>
-        {tags &&
-          tags.map((item, id) => (
-            <Box key={uniqueId()} sx={{ mb: 2 }}>
-              <InputBase id={item} value={item} {...register('tagList')} />
-              <Button variant="outlined" color="error" onClick={() => deleteTag(id)}>
-                Delete
-              </Button>
-            </Box>
-          ))}
+        {tags.map((item, id) => (
+          <Box key={id} sx={{ mb: 2 }}>
+            <InputBase id={item} value={item} {...register('tagList')} />
+            <Button variant="outlined" color="error" onClick={() => deleteTag(id)}>
+              Delete
+            </Button>
+          </Box>
+        ))}
         <InputBase
-          id="tag"
+          id="tags"
           value={value}
           variant="outlined"
           {...register('tagList')}
-          onChange={(event) => {
-            setValue(event.target.value);
+          onChange={(e) => {
+            setValue(e.target.value);
           }}
         />
         <Button variant="outlined" onClick={addTag}>

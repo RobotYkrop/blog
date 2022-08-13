@@ -4,7 +4,7 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import { uniqueId } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { pink } from '@mui/material/colors';
 
 import { convertCreatedDate, titleNull } from '../utilites/utilites';
@@ -12,14 +12,14 @@ import { postLikes, deleteLikes } from '../BlogApi/BlogApi';
 
 import list from './PostItem.module.scss';
 
-const PostItem = ({ slug, title, description, createdAt, tagList, author, favoritesCount }) => {
-  const { token, favorited } = useSelector((state) => state.blogSlice);
+const PostItem = ({ slug, title, description, createdAt, tagList, author, favoritesCount, favorited }) => {
+  const { token } = useSelector((state) => state.blogSlice);
   const [checkFavorite, setCheckFavorite] = useState(favorited);
   const [Count, setFavoriteCount] = useState(favoritesCount);
   const megaTitle = titleNull(title);
   const megaDate = convertCreatedDate(createdAt);
 
-  const likeButtonHandler = (e) => {
+  const likeButtonHandler = useCallback((e) => {
     if (e.target.checked) {
       dispatch(postLikes({ slug, token }));
       setCheckFavorite(true);
@@ -29,7 +29,7 @@ const PostItem = ({ slug, title, description, createdAt, tagList, author, favori
       setCheckFavorite(false);
       setFavoriteCount(Count - 1);
     }
-  };
+  });
   const dispatch = useDispatch();
   return (
     <li className={list['post']}>

@@ -14,7 +14,7 @@ import { convertCreatedDate } from '../../utilites/utilites';
 import ModalDelete from '../../ModalDelete/ModalDelete';
 
 const Article = () => {
-  const { oneArticle, author, isError, isLoading, token } = useSelector((state) => state.blogSlice);
+  const { oneArticle, author, isError, isLoading, token, userInfo } = useSelector((state) => state.blogSlice);
   const { title, description, createdAt, tagList, body, favoritesCount, favorited } = oneArticle;
   const { image, username } = author;
   const megaDate = convertCreatedDate(createdAt);
@@ -89,7 +89,7 @@ const Article = () => {
                 <span className={list['created-date']}>{megaDate}</span>
               </div>
               <Avatar className={list['image']} src={image} alt={username} />
-              {token && (
+              {token && userInfo.username === username && (
                 <div className={list['buttons']}>
                   <ModalDelete />
                   <Link to={'edit'}>
