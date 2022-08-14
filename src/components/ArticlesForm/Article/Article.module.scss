@@ -9,7 +9,6 @@
   & .post {
     align-items: flex-start;
     display: flex;
-    gap: 8em;
     justify-content: space-between;
     & .post-header {
       display: flex;
@@ -75,7 +74,7 @@
     font-size: 20px;
     line-height: 28px;
     margin-right: 13px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
   & div .tag {
     max-width: 550px;

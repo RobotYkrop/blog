@@ -8,7 +8,7 @@ import * as yup from 'yup';
 
 import inputErr from '../../components/App/App.module.scss';
 
-import article from './Article.module.scss';
+import article from './CreateAndEditArt.module.scss';
 
 const FormArticle = ({ oneArticle, formSubmit }) => {
   const schema = yup
