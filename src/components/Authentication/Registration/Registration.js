@@ -2,9 +2,10 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import LoaderIcon from 'react-loader-icon';
-import { Alert, AlertTitle, Button, Checkbox, InputBase } from '@mui/material';
+import { Alert, AlertTitle, Button, Checkbox } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { blue } from '@mui/material/colors';
 
 import input from '../../App/App.module.scss';
 import { postRegisterUser } from '../../BlogApi/BlogApi';
@@ -14,13 +15,11 @@ const Registration = () => {
   const schema = yup
     .object()
     .shape({
-      email: yup.string().email().required('Email is required'),
-      password: yup
-        .string()
-        .min(6, 'Min lenght is 6')
-        .max(40, 'Max lenght is 40')
-        .required('Your password needs to be at least 6 characters.'),
-      username: yup.string().min(3, 'Min lenght is 3').max(20, 'Max lenght is 20').required('Username is required'),
+      email: yup.string().required('Email is required.').email('Email is not valid.'),
+      password: yup.string().min(6, 'Your password needs to be at least 6 characters.').max(40, 'Max lenght is 40.'),
+      username: yup.string().min(3, 'Min lenght username is 3.').max(20, 'Max lenght username is 20.'),
+      repeat_password: yup.string().oneOf([yup.ref('password')], 'Passwords must match.'),
+      checkbox: yup.bool().oneOf([true], 'You must agree to the terms.'),
     })
     .required();
   const { userInfo, isError, isLoading } = useSelector((state) => state.blogSlice);
@@ -29,7 +28,6 @@ const Registration = () => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
@@ -58,7 +56,7 @@ const Registration = () => {
         <h2 className={reg['modal-title']}>Create new account</h2>
         <label className={reg['modal-label']}>
           Username
-          <InputBase
+          <input
             style={{ border: errors.username?.message ? '1px solid red' : '' }}
             {...register('username')}
             placeholder="Username"
@@ -67,7 +65,7 @@ const Registration = () => {
         </label>
         <label className={reg['modal-label']}>
           Email address
-          <InputBase
+          <input
             style={{ border: errors.email?.message ? '1px solid red' : '' }}
             type="email"
             {...register('email')}
@@ -77,7 +75,7 @@ const Registration = () => {
         </label>
         <label className={reg['modal-label']}>
           Password
-          <InputBase
+          <input
             style={{ border: errors.password?.message ? '1px solid red' : '' }}
             type="password"
             {...register('password')}
@@ -87,25 +85,30 @@ const Registration = () => {
         </label>
         <label className={reg['modal-label']}>
           Repeat Password
-          <InputBase
+          <input
             style={{ border: errors.repeat_password?.message ? '1px solid red' : '' }}
             type="password"
-            {...register('repeat_password', {
-              required: 'Passwords must match',
-              validate: (val) => {
-                if (watch('password') != val) {
-                  return 'Passwords must match';
-                }
-              },
-            })}
+            {...register('repeat_password')}
             placeholder="Password"
           />
           {errors.repeat_password && <span className={input['error']}>{errors.repeat_password.message}</span>}
         </label>
         <label className={reg['reg-checkdoc']}>
-          <Checkbox defaultChecked />I agree to the processing of my personal information
+          <div>
+            <Checkbox
+              sx={{
+                color: blue[500],
+                '&.Mui-checked': {
+                  color: blue[500],
+                },
+              }}
+              {...register('checkbox')}
+            />
+            <span className={reg['reg-span']}>I agree to the processing of my personal information</span>
+          </div>
+          {errors.checkbox && <span className={input['error']}>{errors.checkbox.message}</span>}
         </label>
-        <Button type="submit" variant="contained">
+        <Button className={reg['button_submit']} type="submit" variant="contained">
           Create
         </Button>
         <span className={reg['modal-link']}>

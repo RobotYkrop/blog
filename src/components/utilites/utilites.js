@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const convertCreatedDate = (date) => {
-  return moment(date).format('DD MMM, YYYY');
+  return moment(date).format('MMM DD YYYY');
 };
 
 export const titleNull = (title) => {

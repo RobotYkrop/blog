@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert, AlertTitle, Button, InputBase } from '@mui/material';
+import { Alert, AlertTitle, Button } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -15,11 +15,10 @@ const Profile = () => {
       email: yup.string().email().required('Email is required'),
       password: yup
         .string()
-        .min(6, 'Min lenght is 6')
-        .max(40, 'Max lenght is 40')
-        .required('Your password needs to be at least 6 characters.'),
-      username: yup.string().min(3, 'Min lenght is 3').max(20, 'Max lenght is 20').required('Username is required'),
-      image: yup.string().url().required('URL required'),
+        .min(6, 'Your password needs to be at least 6 characters.')
+        .max(40, 'Max lenght password is 40'),
+      username: yup.string().min(3, 'Min lenght username is 3').max(20, 'Max lenght username is 20'),
+      image: yup.string().url().required('URL required.'),
     })
     .required();
   const dispatch = useDispatch();
@@ -51,7 +50,7 @@ const Profile = () => {
         <h2 className={profile['modal-title']}>Edit Profile</h2>
         <label className={profile['modal-label']}>
           Username
-          <InputBase
+          <input
             style={{ border: errors.username?.message ? '1px solid red' : '' }}
             defaultValue={username}
             {...register('username')}
@@ -61,7 +60,7 @@ const Profile = () => {
         </label>
         <label className={profile['modal-label']}>
           Email address
-          <InputBase
+          <input
             style={{ border: errors.email?.message ? '1px solid red' : '' }}
             defaultValue={email}
             type="email"
@@ -72,7 +71,7 @@ const Profile = () => {
         </label>
         <label className={profile['modal-label']}>
           New Password
-          <InputBase
+          <input
             style={{ border: errors.password?.message ? '1px solid red' : '' }}
             type="password"
             {...register('password')}
@@ -82,7 +81,7 @@ const Profile = () => {
         </label>
         <label className={profile['modal-label']}>
           Avatar image (url)
-          <InputBase
+          <input
             style={{ border: errors.password?.message ? '1px solid red' : '' }}
             placeholder="Avatar image"
             {...register('image')}
@@ -90,7 +89,7 @@ const Profile = () => {
           />
           {errors.url && <span className={input['error']}>{errors.url.message}</span>}
         </label>
-        <Button type="submit" variant="contained">
+        <Button className={profile['button_submit']} type="submit" variant="contained">
           Save
         </Button>
       </section>

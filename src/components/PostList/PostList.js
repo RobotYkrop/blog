@@ -16,9 +16,13 @@ const PostList = () => {
   const { postsCount, articles, isError, isLoading } = useSelector((state) => state.blogSlice);
   console.log(articles);
   useEffect(() => {
+    dispatch(getArticle(offset));
+  }, [dispatch, offset]);
+
+  useEffect(() => {
     setPage(offset / 5 + 1);
-    dispatch(getArticle({ offset }));
-  }, [dispatch, offset, page]);
+  }, [dispatch, page, offset]);
+
   return (
     <div>
       {isLoading && <LoaderIcon type={'spin'} color={'blue'} />}

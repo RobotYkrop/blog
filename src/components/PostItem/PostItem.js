@@ -5,7 +5,7 @@ import Favorite from '@mui/icons-material/Favorite';
 import { uniqueId } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useState } from 'react';
-import { pink } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 
 import { convertCreatedDate, titleNull } from '../utilites/utilites';
 import { postLikes, deleteLikes } from '../BlogApi/BlogApi';
@@ -41,9 +41,8 @@ const PostItem = ({ slug, title, description, createdAt, tagList, author, favori
           {token ? (
             <Checkbox
               sx={{
-                color: pink[800],
                 '&.Mui-checked': {
-                  color: pink[600],
+                  color: red[500],
                 },
               }}
               icon={<FavoriteBorder />}
@@ -54,7 +53,7 @@ const PostItem = ({ slug, title, description, createdAt, tagList, author, favori
           ) : (
             <Checkbox icon={<FavoriteBorder />} disabled />
           )}
-          {Count}
+          <span className={list['count']}>{Count}</span>
         </div>
         {tagList.map((item) => {
           return (

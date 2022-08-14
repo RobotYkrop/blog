@@ -1,12 +1,14 @@
 .modal {
   display: grid;
   font-family: 'Roboto';
-  width: 350px;
+  width: 400px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
   margin-left: auto;
   margin-right: auto;
-  color: #595959;
-  padding: 2em;
-  gap: 1em;
+  color: #262626;
+  padding: 48px 32px;
   background: #ffffff;
   border: 1px solid #d9d9d9;
   box-shadow: 0px 22px 106px rgba(0, 0, 0, 0.07), 0px 9.19107px 44.2843px rgba(0, 0, 0, 0.0503198),
@@ -15,26 +17,54 @@
   border-radius: 6px;
   &-title {
     text-align: center;
-    font-weight: 600;
+    font-weight: 500;
+    margin: 0;
+    margin-bottom: 21px;
   }
   &-label {
     display: grid;
   }
-  & input {
-    padding: 0.5em 1em 0.5em 0.5em;
-    border: 1px solid #d9d9d9;
-    border-radius: 5px;
-    font-size: 16px;
-    line-height: 24px;
+  & label {
+    margin-bottom: 12px;
+    input {
+      padding: 8px 12px;
+      border: 1px solid #d9d9d9;
+      border-radius: 5px;
+      font-size: 16px;
+      line-height: 24px;
+      &::placeholder {
+        color: #bfbfbf;
+      }
+    }
   }
   & .reg-checkdoc {
-    display: flex;
-    align-items: center;
-    padding-left: 0;
+    display: grid;
+    padding: 0;
+    margin: 0;
     border-top: 1px solid #e8e8e8;
+    margin-top: 9px;
+    margin-bottom: 12px;
+    padding-top: 8px;
+    & div {
+      display: flex;
+      align-items: flex-start;
+    }
+    & .reg-span {
+      color: #595959;
+    }
     & span {
       padding-left: 0;
+      padding-top: 0;
     }
+  }
+  & .button_submit {
+    background: #1890ff;
+    border-radius: 4px;
+    text-transform: none;
+    padding: 8px;
+    margin-top: 9px;
+    margin-bottom: 8px;
+    box-shadow: none;
   }
   &-link {
     text-align: center;

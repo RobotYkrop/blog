@@ -1,44 +1,54 @@
 @import '../../../variables';
 
 .expanded-post {
-  position: relative;
-  padding: 1em;
-  margin-bottom: 2em;
+  padding: 15px 14px 24px 19px;
+  margin-bottom: 26px;
   filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
   background: #ffffff;
   border-radius: 5px;
   & .post {
-    align-items: stretch;
+    align-items: flex-start;
     display: flex;
     gap: 8em;
     justify-content: space-between;
     & .post-header {
       display: flex;
       align-items: center;
-      gap: 0.4em;
+    }
+    & span {
+      padding: 0;
+    }
+    & .count {
+      margin-left: 5px;
     }
   }
   & .user {
-    display: grid;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    grid-template-columns: 1fr 0.4fr;
-    gap: 1em;
-    justify-items: end;
     & .user-name {
+      color: rgba(0, 0, 0, 0.85);
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      font-size: 18px;
+      line-height: 28px;
+      margin-bottom: 30px;
+      & .author_date {
+        display: grid;
+      }
+      & span {
+        text-align: end;
+      }
     }
     & .buttons {
-      position: absolute;
       right: 0;
-      top: 55px;
       display: flex;
-      gap: 1em;
+      gap: 12px;
+      & button {
+        text-transform: none;
+      }
     }
     & .delete {
+      padding: 6px 17px 5px 17px;
       color: red;
       border-color: red;
       border: 1px solid red;
@@ -48,6 +58,7 @@
       }
     }
     & .edit {
+      padding: 6px 17px 5px 17px;
       background-color: white;
       color: $sign_up;
       border: 1px solid $sign_up;
@@ -58,20 +69,29 @@
     }
   }
   & .title {
+    max-width: 550px;
     color: $border-color;
-    margin-top: 0;
+    margin: 0;
     font-size: 20px;
     line-height: 28px;
+    margin-right: 13px;
+    margin-bottom: 4px;
   }
-  & .tag {
-    border: 1px solid rgba(0, 0, 0, 0.5);
+  & div .tag {
+    max-width: 550px;
+    border: 1px solid rgba(0, 0, 0, 0.75);
     border-radius: 2px;
-    margin-right: 0.3em;
-    padding: 0.2em;
+    padding: 2px 6px 3px 5px;
+    margin-right: 8px;
+    color: rgba(0, 0, 0, 0.75);
   }
   & .description {
+    max-width: 550px;
+    margin-top: 16px;
+    margin-bottom: 0;
     font-size: 12px;
     line-height: 22px;
+    color: rgba(0, 0, 0, 0.75);
   }
   & .image {
     border-radius: 50px;
@@ -80,5 +100,12 @@
   }
   & .created-date {
     color: rgba(0, 0, 0, 0.5);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 22px;
+  }
+  & .body {
+    margin-top: 25px;
+    color: rgba(0, 0, 0, 1);
   }
 }

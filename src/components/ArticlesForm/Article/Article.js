@@ -6,7 +6,7 @@ import { Alert, AlertTitle, Avatar, Button, Checkbox } from '@mui/material';
 import { useParams, Link } from 'react-router-dom';
 import Favorite from '@mui/icons-material/Favorite';
 import { FavoriteBorder } from '@mui/icons-material';
-import { pink } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 
 import list from '../Article/Article.module.scss';
 import { getOneArticle, deleteLikes, postLikes } from '../../BlogApi/BlogApi';
@@ -58,9 +58,8 @@ const Article = () => {
                   {token ? (
                     <Checkbox
                       sx={{
-                        color: pink[800],
                         '&.Mui-checked': {
-                          color: pink[600],
+                          color: red[500],
                         },
                       }}
                       onChange={(e) => likeButtonHandler(e)}
@@ -71,7 +70,7 @@ const Article = () => {
                   ) : (
                     <Checkbox icon={<FavoriteBorder />} disabled />
                   )}
-                  {Count}
+                  <span className={list['count']}>{Count}</span>
                 </span>
               </div>
               {tagList.map((item) => {
@@ -85,10 +84,12 @@ const Article = () => {
             </div>
             <div className={list['user']}>
               <div className={list['user-name']}>
-                <span>{username}</span>
-                <span className={list['created-date']}>{megaDate}</span>
+                <div className={list['author_date']}>
+                  <span>{username}</span>
+                  <span className={list['created-date']}>{megaDate}</span>
+                </div>
+                <Avatar className={list['image']} src={image} alt={username} />
               </div>
-              <Avatar className={list['image']} src={image} alt={username} />
               {token && userInfo.username === username && (
                 <div className={list['buttons']}>
                   <ModalDelete />
@@ -99,7 +100,7 @@ const Article = () => {
               )}
             </div>
           </div>
-          <p>{body}</p>
+          <p className={list['body']}>{body}</p>
         </section>
       )}
     </>

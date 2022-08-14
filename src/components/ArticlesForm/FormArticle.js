@@ -1,4 +1,4 @@
-import { Button, Alert, AlertTitle, Box, InputBase } from '@mui/material';
+import { Button, Alert, AlertTitle, Box } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -65,31 +65,51 @@ const FormArticle = ({ oneArticle, formSubmit }) => {
       <h2 className={article['article-title']}>Create new article</h2>
       <label className={article['article-label']}>
         Title
-        <InputBase id="title" placeholder="Title" {...register('title')} />
+        <input
+          style={{ border: errors.title?.message ? '1px solid red' : '' }}
+          id="title"
+          placeholder="Title"
+          {...register('title')}
+        />
         {errors.title && <span className={inputErr['error']}>{errors.title.message}</span>}
       </label>
       <label className={article['article-label']}>
         Short description
-        <InputBase id="description" placeholder="Description" {...register('description')} />
+        <input
+          style={{ border: errors.description?.message ? '1px solid red' : '' }}
+          id="description"
+          placeholder="Description"
+          {...register('description')}
+        />
         {errors.description && <span className={inputErr['error']}>{errors.description.message}</span>}
       </label>
       <label className={article['article-label']}>
         Text
-        <textarea id="body" className={article['body']} placeholder="Text" {...register('body')} />
+        <textarea
+          style={{ border: errors.description?.message ? '1px solid red' : '' }}
+          id="body"
+          className={article['body']}
+          placeholder="Text"
+          {...register('body')}
+        />
         {errors.description && <span className={inputErr['error']}>{errors.description.message}</span>}
       </label>
-      Tags
       <div className={article['tags']}>
-        {tags.map((item, id) => (
-          <Box key={id} sx={{ mb: 2 }}>
-            <InputBase id={item} value={item} {...register('tagList')} />
-            <Button variant="outlined" color="error" onClick={() => deleteTag(id)}>
-              Delete
-            </Button>
-          </Box>
-        ))}
-        <InputBase
+        <span>Tags</span>
+        <div>
+          {tags.map((item, id) => (
+            <Box key={id} sx={{ mb: '5px' }}>
+              <input className={article['create_tag']} id={item} value={item} {...register('tagList')} />
+              <Button variant="outlined" color="error" onClick={() => deleteTag(id)}>
+                Delete
+              </Button>
+            </Box>
+          ))}
+        </div>
+        <input
           id="tags"
+          className={article['create_tag']}
+          placeholder="Tag"
           value={value}
           variant="outlined"
           {...register('tagList')}
@@ -101,7 +121,7 @@ const FormArticle = ({ oneArticle, formSubmit }) => {
           Add Tag
         </Button>
       </div>
-      <Button type="submit" variant="contained" className={article['send']}>
+      <Button type="submit" className={article['send']}>
         Send
       </Button>
     </form>
