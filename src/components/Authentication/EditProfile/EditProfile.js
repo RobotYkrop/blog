@@ -12,13 +12,13 @@ const Profile = () => {
   const schema = yup
     .object()
     .shape({
-      email: yup.string().email().required('Email is required'),
+      email: yup.string().required('Email is required').email('Email is needed'),
       password: yup
         .string()
         .min(6, 'Your password needs to be at least 6 characters.')
         .max(40, 'Max lenght password is 40'),
       username: yup.string().min(3, 'Min lenght username is 3').max(20, 'Max lenght username is 20'),
-      image: yup.string().url().required('URL required.'),
+      image: yup.string().required('URL required.').url('URL is needed'),
     })
     .required();
   const dispatch = useDispatch();
@@ -82,12 +82,11 @@ const Profile = () => {
         <label className={profile['modal-label']}>
           Avatar image (url)
           <input
-            style={{ border: errors.password?.message ? '1px solid red' : '' }}
+            style={{ border: errors.image?.message ? '1px solid red' : '' }}
             placeholder="Avatar image"
             {...register('image')}
-            type="url"
           />
-          {errors.url && <span className={input['error']}>{errors.url.message}</span>}
+          {errors.image && <span className={input['error']}>{errors.image.message}</span>}
         </label>
         <Button className={profile['button_submit']} type="submit" variant="contained">
           Save
