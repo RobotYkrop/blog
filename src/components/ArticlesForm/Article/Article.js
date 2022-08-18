@@ -1,17 +1,15 @@
 import { uniqueId } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderIcon from 'react-loader-icon';
-import { Alert, AlertTitle, Avatar, Button, Checkbox } from '@mui/material';
+import { Alert, AlertTitle, Avatar, Button } from '@mui/material';
 import { useParams, Link } from 'react-router-dom';
-import Favorite from '@mui/icons-material/Favorite';
-import { FavoriteBorder } from '@mui/icons-material';
-import { red } from '@mui/material/colors';
 
 import list from '../Article/Article.module.scss';
-import { getOneArticle, deleteLikes, postLikes } from '../../BlogApi/BlogApi';
+import { getOneArticle } from '../../BlogApi/BlogApi';
 import { convertCreatedDate } from '../../utilites/utilites';
 import ModalDelete from '../../ModalDelete/ModalDelete';
+import SystemLikes from '../../utilites/systemLikes';
 
 const Article = () => {
   const { oneArticle, author, isError, isLoading, token, userInfo } = useSelector((state) => state.blogSlice);
@@ -20,21 +18,6 @@ const Article = () => {
   const megaDate = convertCreatedDate(createdAt);
   const { slug } = useParams();
   const dispatch = useDispatch();
-
-  const [checkFavorite, setCheckFavorite] = useState(favorited);
-  const [Count, setFavoriteCount] = useState(favoritesCount);
-
-  const likeButtonHandler = (e) => {
-    if (e.target.checked) {
-      dispatch(postLikes({ slug, token }));
-      setCheckFavorite(true);
-      setFavoriteCount(Count + 1);
-    } else {
-      dispatch(deleteLikes({ slug, token }));
-      setCheckFavorite(false);
-      setFavoriteCount(Count - 1);
-    }
-  };
 
   useEffect(() => {
     dispatch(getOneArticle(slug));
@@ -54,24 +37,7 @@ const Article = () => {
             <div>
               <div className={list['post-header']}>
                 <h2 className={list['title']}>{title}</h2>
-                <span>
-                  {token ? (
-                    <Checkbox
-                      sx={{
-                        '&.Mui-checked': {
-                          color: red[500],
-                        },
-                      }}
-                      onChange={(e) => likeButtonHandler(e)}
-                      icon={<FavoriteBorder />}
-                      checkedIcon={<Favorite />}
-                      checked={checkFavorite}
-                    />
-                  ) : (
-                    <Checkbox icon={<FavoriteBorder />} disabled />
-                  )}
-                  <span className={list['count']}>{Count}</span>
-                </span>
+                <SystemLikes favoritesCount={favoritesCount} favorited={favorited} slug={slug} />
               </div>
               {tagList.map((item) => {
                 return (
