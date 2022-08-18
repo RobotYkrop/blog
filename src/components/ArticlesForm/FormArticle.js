@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { uniqueId } from 'lodash';
+import { Input } from 'antd';
 
 import inputErr from '../../components/App/App.module.scss';
 
@@ -43,6 +45,7 @@ const FormArticle = ({ oneArticle, formSubmit }) => {
       title: oneArticle?.title || '',
       description: oneArticle?.description || '',
       body: oneArticle?.body || '',
+      tagList: oneArticle?.tagList || [],
     },
     resolver: yupResolver(schema),
   });
@@ -97,16 +100,17 @@ const FormArticle = ({ oneArticle, formSubmit }) => {
       <div className={article['tags']}>
         <span>Tags</span>
         <div>
-          {tags.map((item, id) => (
-            <Box key={id} sx={{ mb: '5px' }}>
-              <input className={article['create_tag']} id={item} value={item} {...register('tagList')} />
-              <Button variant="outlined" color="error" onClick={() => deleteTag(id)}>
-                Delete
-              </Button>
-            </Box>
-          ))}
+          {tags &&
+            tags.map((item, id) => (
+              <Box key={uniqueId()} sx={{ mb: '5px' }}>
+                <Input className={article['create_tag']} id={item} value={item} {...register('tagList')} />
+                <Button variant="outlined" color="error" onClick={() => deleteTag(id)}>
+                  Delete
+                </Button>
+              </Box>
+            ))}
         </div>
-        <input
+        <Input
           id="tags"
           className={article['create_tag']}
           placeholder="Tag"
