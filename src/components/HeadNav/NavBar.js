@@ -1,6 +1,6 @@
 import { Button, Avatar } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { logout } from '../../store/configureStore';
 
@@ -9,12 +9,9 @@ import nav from './NavBar.module.scss';
 const NavBar = () => {
   const { token, userInfo } = useSelector((state) => state.blogSlice);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const logOut = () => {
     dispatch(logout());
-    navigate('../articles', { replace: true });
   };
-  console.log(userInfo);
   return (
     <nav className={nav['nav']}>
       <Link to={'articles'}>

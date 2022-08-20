@@ -17,12 +17,12 @@ const PostList = () => {
 
   useEffect(() => {
     dispatch(getArticle(offset));
-  }, [dispatch, offset]);
+  }, [offset]);
 
   useEffect(() => {
     setPage(offset / 5 + 1);
-  }, [dispatch, page, offset]);
-  console.log(articles);
+  }, [page, offset]);
+
   return (
     <div>
       {isLoading && <LoaderIcon type={'spin'} color={'blue'} />}

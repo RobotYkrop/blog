@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import LoaderIcon from 'react-loader-icon';
 import { Alert, AlertTitle, Button, Checkbox } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -22,7 +22,7 @@ const Registration = () => {
       checkbox: yup.bool().oneOf([true], 'You must agree to the terms.'),
     })
     .required();
-  const { userInfo, isError, isLoading } = useSelector((state) => state.blogSlice);
+  const { userInfo, isError, isLoading, token } = useSelector((state) => state.blogSlice);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -32,19 +32,17 @@ const Registration = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  console.log(errors);
   const onSubmit = (data) => {
     const { username, email, password, image } = data;
     dispatch(postRegisterUser({ username, email, password, image }));
-    navigate('../articles', { replace: true });
     userInfo ?? reset();
-    console.log(data);
   };
   const LinkSignUp = () => {
-    navigate('../sign-in', { replace: true });
+    navigate('/sign-in', { replace: true });
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {token && <Navigate to="/articles" replace />}
       {isLoading && <LoaderIcon type={'spin'} color={'blue'} />}
       {isError && (
         <Alert severity="error">

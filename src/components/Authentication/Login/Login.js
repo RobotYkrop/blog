@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import LoaderIcon from 'react-loader-icon';
@@ -37,7 +37,7 @@ const Login = () => {
   };
 
   const LinkSignUp = () => {
-    navigate('../sign-up', { replace: true });
+    navigate('/sign-up', { replace: true });
   };
   return (
     <div>
@@ -48,7 +48,7 @@ const Login = () => {
           При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
         </Alert>
       )}
-      {token && navigate('../articles', { replace: true })}
+      {token && <Navigate to="/articles" replace />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <section className={log['modal']}>
           <h2 className={log['modal-title']}>Sign In</h2>

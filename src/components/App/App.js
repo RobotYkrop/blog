@@ -22,7 +22,7 @@ const App = () => {
       <NavBar />
       <Container maxWidth="md">
         <Routes>
-          <Route path="/" element={<PostList />} />
+          <Route path="/" element={<Navigate to="/articles" replace />} />
           <Route path="/articles" element={<PostList />} />
           <Route path="/articles/:slug" element={<Article />} />
           <Route path="/sign-in" element={<Login />} />
