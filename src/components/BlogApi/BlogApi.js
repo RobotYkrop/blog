@@ -42,7 +42,7 @@ export const postRegisterUser = createAsyncThunk(
             username: username,
             email: email,
             password: password,
-            image: '',
+            image: null,
           },
         }),
       });
@@ -71,7 +71,6 @@ export const postUserLogin = createAsyncThunk(
           },
         }),
       });
-      console.log(res);
       const json = res.json();
       return json;
     } catch (err) {

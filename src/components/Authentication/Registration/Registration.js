@@ -17,7 +17,11 @@ const Registration = () => {
     .shape({
       email: yup.string().required('Email is required.').email('Email is not valid.'),
       password: yup.string().min(6, 'Your password needs to be at least 6 characters.').max(40, 'Max lenght is 40.'),
-      username: yup.string().min(3, 'Min lenght username is 3.').max(20, 'Max lenght username is 20.'),
+      username: yup
+        .string()
+        .min(3, 'Min lenght username is 3.')
+        .max(20, 'Max lenght username is 20.')
+        .matches(/^[A-Za-z]+$/i, 'Is not in correct format'),
       repeat_password: yup.string().oneOf([yup.ref('password')], 'Passwords must match.'),
       checkbox: yup.bool().oneOf([true], 'You must agree to the terms.'),
     })
@@ -34,7 +38,7 @@ const Registration = () => {
 
   const onSubmit = (data) => {
     const { username, email, password, image } = data;
-    dispatch(postRegisterUser({ username, email, password, image }));
+    console.log(dispatch(postRegisterUser({ username, email, password, image })));
     userInfo ?? reset();
   };
   const LinkSignUp = () => {

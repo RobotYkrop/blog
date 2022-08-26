@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
+  postCreateArticle,
   deleteArticle,
   deleteLikes,
   getArticle,
@@ -113,6 +114,10 @@ const blogSlice = createSlice({
       state.isLoading = false;
     },
     // Удаление article
+    [postCreateArticle.fulfilled]: (state) => {
+      state.isError = false;
+      state.isLoading = false;
+    },
     [deleteArticle.fulfilled]: (state) => {
       state.isError = false;
       state.isLoading = false;
