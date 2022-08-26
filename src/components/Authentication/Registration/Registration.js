@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import LoaderIcon from 'react-loader-icon';
 import { Alert, AlertTitle, Button, Checkbox } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,21 +13,24 @@ import { postRegisterUser } from '../../BlogApi/BlogApi';
 import reg from '../Auth.module.scss';
 
 const Registration = () => {
+  const { userInfo, isError, isLoading, token } = useSelector((state) => state.blogSlice);
+  const [validateName, setValidateName] = useState();
+  const [validateEmail, setValidateEmail] = useState();
   const schema = yup
     .object()
     .shape({
-      email: yup.string().required('Email is required.').email('Email is not valid.'),
+      email: yup.string().email('Email is not valid.').matches(validateEmail),
       password: yup.string().min(6, 'Your password needs to be at least 6 characters.').max(40, 'Max lenght is 40.'),
       username: yup
         .string()
         .min(3, 'Min lenght username is 3.')
         .max(20, 'Max lenght username is 20.')
-        .matches(/^[A-Za-z]+$/i, 'Is not in correct format'),
+        .matches(/^[A-Za-z]+$/i, 'Is not in correct format')
+        .matches(validateName),
       repeat_password: yup.string().oneOf([yup.ref('password')], 'Passwords must match.'),
       checkbox: yup.bool().oneOf([true], 'You must agree to the terms.'),
     })
     .required();
-  const { userInfo, isError, isLoading, token } = useSelector((state) => state.blogSlice);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -38,8 +42,16 @@ const Registration = () => {
 
   const onSubmit = (data) => {
     const { username, email, password, image } = data;
-    console.log(dispatch(postRegisterUser({ username, email, password, image })));
-    userInfo ?? reset();
+    dispatch(postRegisterUser({ username, email, password, image })).then((res) => {
+      console.log(res);
+      if (res.payload.errors) {
+        setValidateName(res.payload.errors.username);
+        setValidateEmail(res.payload.errors.email);
+      } else {
+        return res;
+      }
+    });
+    userInfo && validateEmail && validateName ? reset() : null;
   };
   const LinkSignUp = () => {
     navigate('/sign-in', { replace: true });
@@ -59,21 +71,26 @@ const Registration = () => {
         <label className={reg['modal-label']}>
           Username
           <input
+            onClick={() => setValidateName()}
             style={{ border: errors.username?.message ? '1px solid red' : '' }}
             {...register('username')}
             placeholder="Username"
           />
-          {errors.username && <span className={input['error']}>{errors.username.message}</span>}
+          {(errors.username || validateName) && (
+            <span className={input['error']}>{errors.username?.message || validateName}</span>
+          )}
         </label>
         <label className={reg['modal-label']}>
           Email address
           <input
+            onClick={() => setValidateEmail()}
             style={{ border: errors.email?.message ? '1px solid red' : '' }}
-            type="email"
             {...register('email')}
             placeholder="Email address"
           />
-          {errors.email && <span className={input['error']}>{errors.email.message}</span>}
+          {(errors.email || validateEmail) && (
+            <span className={input['error']}>{errors.email?.message || validateEmail}</span>
+          )}
         </label>
         <label className={reg['modal-label']}>
           Password

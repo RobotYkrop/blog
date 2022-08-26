@@ -32,8 +32,7 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     const { email, password } = data;
-    dispatch(postUserLogin({ email, password }));
-    console.log(data);
+    console.log(dispatch(postUserLogin({ email, password })));
   };
 
   const LinkSignUp = () => {

@@ -50,7 +50,7 @@ const blogSlice = createSlice({
       state.isLoading = true;
     },
     [postRegisterUser.fulfilled]: (state, action) => {
-      state.token = action.payload.user.token;
+      state.token = action.payload?.user?.token;
       state.userInfo = action.payload.user;
       state.isError = false;
       state.isLoading = false;
