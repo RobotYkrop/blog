@@ -113,6 +113,10 @@ const blogSlice = createSlice({
       state.isLoading = false;
     },
     // Удаление article
+    [deleteArticle.fulfilled]: (state) => {
+      state.isError = false;
+      state.isLoading = false;
+    },
     [deleteArticle.rejected]: (state) => {
       state.isError = true;
       state.isLoading = false;

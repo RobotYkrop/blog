@@ -17,7 +17,6 @@ const SystemLikes = ({ slug, favorited, favoritesCount }) => {
   const likeButtonHandler = () => {
     if (!checkFavorite) {
       dispatch(postLikes({ slug, token })).then((res) => {
-        console.log(res);
         if (res.payload.article.favorited) {
           setCheckFavorite(true);
           setFavoriteCount(res.payload.article.favoritesCount);
@@ -25,7 +24,6 @@ const SystemLikes = ({ slug, favorited, favoritesCount }) => {
       });
     } else {
       dispatch(deleteLikes({ slug, token })).then((res) => {
-        console.log(res);
         if (!res.payload.article.favorited) {
           setCheckFavorite(false);
           setFavoriteCount(res.payload.article.favoritesCount);

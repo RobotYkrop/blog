@@ -29,7 +29,7 @@ export const getOneArticle = createAsyncThunk('blog/getOneArticle', async (slug,
 
 export const postRegisterUser = createAsyncThunk(
   'blog/postRegisterUser',
-  async ({ username, email, password, rejectWithValue }) => {
+  async ({ username, email, password }, { rejectWithValue }) => {
     try {
       const res = await fetch(URL + 'users', {
         method: 'POST',
@@ -47,9 +47,6 @@ export const postRegisterUser = createAsyncThunk(
         }),
       });
       const json = res.json();
-      if (!res.ok) {
-        throw Error;
-      }
       return json;
     } catch (err) {
       return rejectWithValue(err.res);
@@ -57,35 +54,35 @@ export const postRegisterUser = createAsyncThunk(
   }
 );
 
-export const postUserLogin = createAsyncThunk('blog/postUserLogin', async ({ email, password, rejectWithValue }) => {
-  try {
-    const res = await fetch(URL + 'users/login', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user: {
-          email: email,
-          password: password,
+export const postUserLogin = createAsyncThunk(
+  'blog/postUserLogin',
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const res = await fetch(URL + 'users/login', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-      }),
-    });
-    console.log(res);
-    const json = res.json();
-    if (!res.ok) {
-      throw Error;
+        body: JSON.stringify({
+          user: {
+            email: email,
+            password: password,
+          },
+        }),
+      });
+      console.log(res);
+      const json = res.json();
+      return json;
+    } catch (err) {
+      throw rejectWithValue(err.message);
     }
-    return json;
-  } catch (err) {
-    throw rejectWithValue(err.message);
   }
-});
+);
 
 export const putUpdateUser = createAsyncThunk(
   'blog/postUserLogin',
-  async ({ username, email, password, image, token, rejectWithValue }) => {
+  async ({ username, email, password, image, token }, { rejectWithValue }) => {
     try {
       const res = await fetch(URL + 'user', {
         method: 'PUT',
@@ -104,9 +101,6 @@ export const putUpdateUser = createAsyncThunk(
         }),
       });
       const json = res.json();
-      if (!res.ok) {
-        throw Error;
-      }
       return json;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -116,7 +110,7 @@ export const putUpdateUser = createAsyncThunk(
 
 export const postCreateArticle = createAsyncThunk(
   'blog/postCreateArticle',
-  async ({ title, description, body, tagList, token, rejectWithValue }) => {
+  async ({ title, description, body, tagList, token }, { rejectWithValue }) => {
     try {
       const res = await fetch(URL + 'articles', {
         method: 'POST',
@@ -135,9 +129,6 @@ export const postCreateArticle = createAsyncThunk(
         }),
       });
       const json = res.json();
-      if (!res.ok) {
-        throw Error;
-      }
       return json;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -147,7 +138,7 @@ export const postCreateArticle = createAsyncThunk(
 
 export const putUpdateArticle = createAsyncThunk(
   'blog/putUpdateArticle',
-  async ({ slug, title, description, body, tagList, token, rejectWithValue }) => {
+  async ({ slug, title, description, body, tagList, token }, { rejectWithValue }) => {
     try {
       const res = await fetch(URL + `articles/${slug}`, {
         method: 'PUT',
@@ -166,9 +157,6 @@ export const putUpdateArticle = createAsyncThunk(
         }),
       });
       const json = res.json();
-      if (!res.ok) {
-        throw Error;
-      }
       return json;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -176,9 +164,9 @@ export const putUpdateArticle = createAsyncThunk(
   }
 );
 
-export const deleteArticle = createAsyncThunk('blog/deleteArticle', async ({ slug, token, rejectWithValue }) => {
+export const deleteArticle = createAsyncThunk('blog/deleteArticle', async ({ slug, token }, { rejectWithValue }) => {
   try {
-    const res = await fetch(URL + `articles/${slug}`, {
+    await fetch(URL + `articles/${slug}`, {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',
@@ -186,16 +174,12 @@ export const deleteArticle = createAsyncThunk('blog/deleteArticle', async ({ slu
         Authorization: `Bearer ${token}`,
       },
     });
-    if (!res.ok) {
-      throw Error;
-    }
-    return await res.json();
   } catch (err) {
     return rejectWithValue(err.message);
   }
 });
 
-export const postLikes = createAsyncThunk('blog/postLikes', async ({ slug, token, rejectWithValue }) => {
+export const postLikes = createAsyncThunk('blog/postLikes', async ({ slug, token }, { rejectWithValue }) => {
   try {
     const res = await fetch(URL + `articles/${slug}/favorite`, {
       method: 'POST',
@@ -206,29 +190,21 @@ export const postLikes = createAsyncThunk('blog/postLikes', async ({ slug, token
       },
     });
     const json = res.json();
-    if (!res.ok) {
-      throw Error;
-    }
     return json;
   } catch (err) {
     return rejectWithValue(err.message);
   }
 });
 
-export const deleteLikes = createAsyncThunk('blog/deleteLikes', async ({ slug, token, rejectWithValue }) => {
+export const deleteLikes = createAsyncThunk('blog/deleteLikes', async ({ slug, token }, { rejectWithValue }) => {
   try {
     const res = await fetch(URL + `articles/${slug}/favorite`, {
       method: 'DELETE',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });
     const json = res.json();
-    if (!res.ok) {
-      throw Error;
-    }
     return json;
   } catch (err) {
     return rejectWithValue(err.message);

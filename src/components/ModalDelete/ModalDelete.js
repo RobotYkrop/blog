@@ -25,7 +25,7 @@ const ModalDelete = () => {
 
   const deleteArt = () => {
     dispatch(deleteArticle({ slug, token }));
-    navigate('../articles', { replace: true });
+    navigate('/articles', { replace: true });
   };
 
   return (
