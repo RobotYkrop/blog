@@ -21,7 +21,7 @@ const Article = () => {
 
   useEffect(() => {
     dispatch(getOneArticle(slug));
-  }, [slug]);
+  }, [dispatch, slug]);
   return (
     <>
       {isLoading && <LoaderIcon type={'spin'} color={'blue'} />}

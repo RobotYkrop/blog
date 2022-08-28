@@ -17,7 +17,7 @@ const PostList = () => {
 
   useEffect(() => {
     dispatch(getArticle(offset));
-  }, [offset]);
+  }, [dispatch, offset]);
 
   useEffect(() => {
     setPage(offset / 5 + 1);
