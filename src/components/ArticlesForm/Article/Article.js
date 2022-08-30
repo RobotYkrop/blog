@@ -58,7 +58,7 @@ const Article = () => {
                 </div>
                 <Avatar className={list['image']} src={image} alt={username} />
               </div>
-              {token && userInfo.username === username && (
+              {token && userInfo?.username === username && (
                 <div className={list['buttons']}>
                   <ModalDelete />
                   <Link to={'edit'}>

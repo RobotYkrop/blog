@@ -40,7 +40,6 @@ const Login = () => {
   };
   return (
     <div>
-      {isLoading && <LoaderIcon type={'spin'} color={'blue'} />}
       {isError && (
         <Alert severity="error">
           <AlertTitle>Ошибка</AlertTitle>
@@ -48,41 +47,45 @@ const Login = () => {
         </Alert>
       )}
       {token && <Navigate to="/articles" replace />}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <section className={log['modal']}>
-          <h2 className={log['modal-title']}>Sign In</h2>
-          <label className={log['modal-label']}>
-            Email address
-            <input
-              placeholder="Email address"
-              style={{ border: errors.email?.message ? '1px solid red' : '' }}
-              {...register('email')}
-              type="email"
-            />
-            {errors.email && <span className={input['error']}>{errors.email.message}</span>}
-          </label>
-          <label className={log['modal-label']}>
-            Password
-            <input
-              placeholder="Password"
-              style={{ border: errors.password?.message ? '1px solid red' : '' }}
-              type="password"
-              {...register('password')}
-            />
-            {errors.password && <span className={input['error']}>{errors.password.message}</span>}
-          </label>
-          <Button className={log['button_submit']} type="submit" variant="contained">
-            Login
-          </Button>
-          <span className={log['modal-link']}>
-            Don`t have an account?
-            <button className={log['linkSign']} onClick={() => LinkSignUp()}>
-              Sign Up
-            </button>
-            .
-          </span>
-        </section>
-      </form>
+      {isLoading ? (
+        <LoaderIcon type={'spin'} color={'blue'} />
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <section className={log['modal']}>
+            <h2 className={log['modal-title']}>Sign In</h2>
+            <label className={log['modal-label']}>
+              Email address
+              <input
+                placeholder="Email address"
+                style={{ border: errors.email?.message ? '1px solid red' : '' }}
+                {...register('email')}
+                type="email"
+              />
+              {errors.email && <span className={input['error']}>{errors.email.message}</span>}
+            </label>
+            <label className={log['modal-label']}>
+              Password
+              <input
+                placeholder="Password"
+                style={{ border: errors.password?.message ? '1px solid red' : '' }}
+                type="password"
+                {...register('password')}
+              />
+              {errors.password && <span className={input['error']}>{errors.password.message}</span>}
+            </label>
+            <Button className={log['button_submit']} type="submit" variant="contained">
+              Login
+            </Button>
+            <span className={log['modal-link']}>
+              Don`t have an account?
+              <button className={log['linkSign']} onClick={() => LinkSignUp()}>
+                Sign Up
+              </button>
+              .
+            </span>
+          </section>
+        </form>
+      )}
     </div>
   );
 };

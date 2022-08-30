@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Alert, AlertTitle, Button } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import LoaderIcon from 'react-loader-icon';
 
 import { putUpdateUser } from '../../BlogApi/BlogApi';
 import input from '../../App/App.module.scss';
@@ -22,7 +23,7 @@ const Profile = () => {
     })
     .required();
   const dispatch = useDispatch();
-  const { userInfo, token, isError } = useSelector((state) => state.blogSlice);
+  const { userInfo, token, isError, isLoading } = useSelector((state) => state.blogSlice);
   const { username, email } = userInfo;
   const {
     register,
@@ -39,60 +40,66 @@ const Profile = () => {
     reset();
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {isError && (
-        <Alert severity="error">
-          <AlertTitle>Ошибка</AlertTitle>
-          При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
-        </Alert>
+    <>
+      {isLoading ? (
+        <LoaderIcon type={'spin'} color={'blue'} />
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {isError && (
+            <Alert severity="error">
+              <AlertTitle>Ошибка</AlertTitle>
+              При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
+            </Alert>
+          )}
+          <section className={profile['modal']}>
+            <h2 className={profile['modal-title']}>Edit Profile</h2>
+            <label className={profile['modal-label']}>
+              Username
+              <input
+                style={{ border: errors.username?.message ? '1px solid red' : '' }}
+                defaultValue={username}
+                {...register('username')}
+                placeholder="Username"
+              />
+              {errors.username && <span className={input['error']}>{errors.username.message}</span>}
+            </label>
+            <label className={profile['modal-label']}>
+              Email address
+              <input
+                style={{ border: errors.email?.message ? '1px solid red' : '' }}
+                defaultValue={email}
+                type="email"
+                {...register('email')}
+                placeholder="Email address"
+              />
+              {errors.email && <span className={input['error']}>{errors.email.message}</span>}
+            </label>
+            <label className={profile['modal-label']}>
+              New Password
+              <input
+                style={{ border: errors.password?.message ? '1px solid red' : '' }}
+                type="password"
+                {...register('password')}
+                placeholder="New Password"
+              />
+              {errors.password && <span className={input['error']}>{errors.password.message}</span>}
+            </label>
+            <label className={profile['modal-label']}>
+              Avatar image (url)
+              <input
+                style={{ border: errors.image?.message ? '1px solid red' : '' }}
+                placeholder="Avatar image"
+                {...register('image')}
+              />
+              {errors.image && <span className={input['error']}>{errors.image.message}</span>}
+            </label>
+            <Button className={profile['button_submit']} type="submit" variant="contained">
+              Save
+            </Button>
+          </section>
+        </form>
       )}
-      <section className={profile['modal']}>
-        <h2 className={profile['modal-title']}>Edit Profile</h2>
-        <label className={profile['modal-label']}>
-          Username
-          <input
-            style={{ border: errors.username?.message ? '1px solid red' : '' }}
-            defaultValue={username}
-            {...register('username')}
-            placeholder="Username"
-          />
-          {errors.username && <span className={input['error']}>{errors.username.message}</span>}
-        </label>
-        <label className={profile['modal-label']}>
-          Email address
-          <input
-            style={{ border: errors.email?.message ? '1px solid red' : '' }}
-            defaultValue={email}
-            type="email"
-            {...register('email')}
-            placeholder="Email address"
-          />
-          {errors.email && <span className={input['error']}>{errors.email.message}</span>}
-        </label>
-        <label className={profile['modal-label']}>
-          New Password
-          <input
-            style={{ border: errors.password?.message ? '1px solid red' : '' }}
-            type="password"
-            {...register('password')}
-            placeholder="New Password"
-          />
-          {errors.password && <span className={input['error']}>{errors.password.message}</span>}
-        </label>
-        <label className={profile['modal-label']}>
-          Avatar image (url)
-          <input
-            style={{ border: errors.image?.message ? '1px solid red' : '' }}
-            placeholder="Avatar image"
-            {...register('image')}
-          />
-          {errors.image && <span className={input['error']}>{errors.image.message}</span>}
-        </label>
-        <Button className={profile['button_submit']} type="submit" variant="contained">
-          Save
-        </Button>
-      </section>
-    </form>
+    </>
   );
 };
 
