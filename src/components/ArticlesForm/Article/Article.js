@@ -12,26 +12,28 @@ import ModalDelete from '../../ModalDelete/ModalDelete';
 import SystemLikes from '../../utilites/systemLikes';
 
 const Article = () => {
+  const { slug } = useParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getOneArticle(slug));
+  }, [dispatch, slug]);
+
   const { oneArticle, author, isError, isLoading, token, userInfo } = useSelector((state) => state.blogSlice);
   const { title, description, createdAt, tagList, body, favoritesCount, favorited } = oneArticle;
   const { image, username } = author;
   const megaDate = convertCreatedDate(createdAt);
-  const { slug } = useParams();
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getOneArticle(slug));
-  }, [dispatch, slug]);
   return (
     <>
-      {isLoading && <LoaderIcon type={'spin'} color={'blue'} />}
       {isError && (
         <Alert severity="error">
           <AlertTitle>Ошибка</AlertTitle>
           При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
         </Alert>
       )}
-      {oneArticle && (
+      {isLoading ? (
+        <LoaderIcon type={'spin'} color={'blue'} />
+      ) : (
         <section className={list['expanded-post']}>
           <div key={uniqueId()} className={list['post']}>
             <div>
@@ -39,9 +41,9 @@ const Article = () => {
                 <h2 className={list['title']}>{title}</h2>
                 <SystemLikes favoritesCount={favoritesCount} favorited={favorited} slug={slug} />
               </div>
-              {tagList?.map((item) => {
+              {tagList?.map((item, i) => {
                 return (
-                  <span key={uniqueId()} className={list['tag']}>
+                  <span key={i} className={list['tag']}>
                     {item}
                   </span>
                 );
