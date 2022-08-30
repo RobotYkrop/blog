@@ -39,13 +39,13 @@ const Article = () => {
                 <h2 className={list['title']}>{title}</h2>
                 <SystemLikes favoritesCount={favoritesCount} favorited={favorited} slug={slug} />
               </div>
-              {tagList.map((item) => {
+              {tagList?.map((item) => {
                 return (
                   <span key={uniqueId()} className={list['tag']}>
                     {item}
                   </span>
                 );
-              })}
+              }) ?? 'Теги отсутствуют'}
               <p className={list['description']}>{description}</p>
             </div>
             <div className={list['user']}>
