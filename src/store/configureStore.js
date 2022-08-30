@@ -4,7 +4,7 @@ import {
   postCreateArticle,
   deleteArticle,
   deleteLikes,
-  getArticle,
+  getArticles,
   getOneArticle,
   postLikes,
   postRegisterUser,
@@ -90,17 +90,17 @@ const blogSlice = createSlice({
       state.isLoading = false;
     },
     // Получение списка постов
-    [getArticle.pending]: (state) => {
+    [getArticles.pending]: (state) => {
       state.isError = false;
       state.isLoading = true;
     },
-    [getArticle.fulfilled]: (state, action) => {
+    [getArticles.fulfilled]: (state, action) => {
       state.articles = action.payload.articles;
       state.postsCount = action.payload.articlesCount;
       state.isError = false;
       state.isLoading = false;
     },
-    [getArticle.rejected]: (state) => {
+    [getArticles.rejected]: (state) => {
       state.isError = true;
       state.isLoading = false;
     },

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoaderIcon from 'react-loader-icon';
 import { Pagination, Alert, AlertTitle } from '@mui/material';
 
-import { getArticle } from '../BlogApi/BlogApi';
+import { getArticles } from '../BlogApi/BlogApi';
 import PostItem from '../PostItem/PostItem';
 
 import list from './PostList.module.scss';
@@ -16,7 +16,7 @@ const PostList = () => {
   const { postsCount, articles, isError, isLoading } = useSelector((state) => state.blogSlice);
 
   useEffect(() => {
-    dispatch(getArticle(offset));
+    dispatch(getArticles(offset));
   }, [dispatch, offset]);
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 const URL = 'https://blog.kata.academy/api/';
 
-export const getArticle = createAsyncThunk('blog/getArticle', async (offset, { rejectWithValue }) => {
+export const getArticles = createAsyncThunk('blog/getArticles', async (offset, { rejectWithValue }) => {
   try {
     const res = await fetch(URL + `articles?limit=5&offset=${offset}`);
     if (!res.ok) {
