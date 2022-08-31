@@ -25,14 +25,15 @@ const PostList = () => {
 
   return (
     <div>
-      {isLoading && <LoaderIcon type={'spin'} color={'blue'} />}
       {isError && (
         <Alert severity="error">
           <AlertTitle>Ошибка</AlertTitle>
           При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
         </Alert>
       )}
-      {!isLoading && !isError && (
+      {isLoading ? (
+        <LoaderIcon type={'spin'} color={'blue'} />
+      ) : (
         <div>
           <ul className={list['post-list']}>
             {articles.map((post) => {

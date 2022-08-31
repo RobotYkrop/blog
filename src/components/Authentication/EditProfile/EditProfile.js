@@ -41,16 +41,16 @@ const Profile = () => {
   };
   return (
     <>
+      {isError && (
+        <Alert severity="error">
+          <AlertTitle>Ошибка</AlertTitle>
+          При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
+        </Alert>
+      )}
       {isLoading ? (
         <LoaderIcon type={'spin'} color={'blue'} />
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
-          {isError && (
-            <Alert severity="error">
-              <AlertTitle>Ошибка</AlertTitle>
-              При загрузке данных появилась ошибка — <strong>возможно, проблема с сервером</strong>
-            </Alert>
-          )}
           <section className={profile['modal']}>
             <h2 className={profile['modal-title']}>Edit Profile</h2>
             <label className={profile['modal-label']}>
