@@ -16,7 +16,7 @@ import app from './App.module.scss';
 import 'antd/dist/antd.min.css';
 
 const App = () => {
-  const { token } = useSelector((state) => state.blogSlice);
+  const { token } = useSelector((state) => state.blogSlice); // Route's можно было и объектом сделать
   return (
     <div className={app['App']}>
       <NavBar />
